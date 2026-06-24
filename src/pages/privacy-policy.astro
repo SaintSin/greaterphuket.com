@@ -1,0 +1,95 @@
+---
+import { siteMetadata } from '@config/siteMetadata';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const meta = {
+  title: `Privacy Policy — ${siteMetadata.name}`,
+  description: `Privacy policy for greater-phuket.com — what data we collect, why, and your rights.`,
+};
+---
+
+<BaseLayout metaData={meta}>
+  <main class="wrapper flow">
+    <h1>Privacy Policy</h1>
+    <p><em>Last updated: June 2026</em></p>
+
+    <h2>Who we are</h2>
+    <p>
+      This website is operated by the team behind Greater Phuket. If you have
+      any questions about this policy, contact us at:
+      <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>
+    </p>
+
+    <h2>What data we collect and why</h2>
+    <h3>Analytics</h3>
+    <p>
+      With your consent, we use Google Analytics 4 (GA4) to collect anonymised
+      information about how visitors use the site — pages visited, time on page,
+      and general location (country/region). This data is aggregated and cannot
+      identify you personally.
+    </p>
+    <p>
+      We use Google's consent mode: analytics cookies are not set until you
+      accept via the cookie banner. You can withdraw consent at any time by
+      clearing your browser cookies and declining on your next visit.
+    </p>
+    <p>Legal basis: <strong>Consent</strong> (GDPR Art. 6(1)(a)).</p>
+
+    <h3>Contact</h3>
+    <p>
+      If you email us directly, we retain your email address and message only
+      for as long as needed to respond.
+    </p>
+    <p>Legal basis: <strong>Legitimate interests</strong> (GDPR Art. 6(1)(f)).</p>
+
+    <h2>Cookies</h2>
+    <p>
+      We only set analytics cookies after you give consent. No tracking or
+      advertising cookies are used. See our cookie banner for controls.
+    </p>
+
+    <h2>Third-party services</h2>
+    <ul>
+      <li>
+        <strong>Google Analytics 4</strong> — data processed by Google LLC in
+        the US under standard contractual clauses. See
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+          Google's Privacy Policy
+        </a>.
+      </li>
+      <li>
+        <strong>Netlify</strong> — our hosting provider. Server logs (IP
+        address, user agent) are retained for up to 30 days. See
+        <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">
+          Netlify's Privacy Policy
+        </a>.
+      </li>
+    </ul>
+
+    <h2>Your rights</h2>
+    <p>Under GDPR and UK GDPR you have the right to:</p>
+    <ul>
+      <li>Access the personal data we hold about you</li>
+      <li>Request correction or deletion of your data</li>
+      <li>Object to or restrict processing</li>
+      <li>Withdraw consent at any time</li>
+      <li>Lodge a complaint with your supervisory authority</li>
+    </ul>
+    <p>
+      To exercise any of these rights, contact us at
+      <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>.
+    </p>
+
+    <h2>Data retention</h2>
+    <p>
+      Analytics data is retained for 14 months in Google Analytics, after which
+      it is automatically deleted.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy from time to time. The "last updated" date at
+      the top of the page will reflect any changes.
+    </p>
+  </main>
+</BaseLayout>
