@@ -3,8 +3,6 @@ import Pandabox from "@components/Pandabox.astro";
 import Layout from "@layouts/BaseLayout.astro";
 import { formatCurrency } from "@utils/currencyHelper";
 
-const samplePrices = [3800000, 6200000, 12500000, 22000000];
-
 const meta = {
 	title: "Greater Phuket",
 	description: "Phuket and beyond: Phang Nga, Krabbi and more…",
@@ -19,14 +17,9 @@ const meta = {
     <p>Phuket, Phang Nga, Krabbi and beyond.</p>
     <hr />
     <p>
-      {samplePrices.map((thb, i) => (
-        <>
-          <span class="price price-m" data-thb={thb}>
-            {formatCurrency(thb, "THB", { showMillions: true })}
-          </span>
-          {i < samplePrices.length - 1 ? " · " : ""}
-        </>
-      ))}
+      A bowl of pad thai costs {formatCurrency(80, "THB")}<span class="price-alt" data-thb="80"></span>,
+      a Grab to the beach around {formatCurrency(300, "THB")}<span class="price-alt" data-thb="300"></span>,
+      and a guesthouse room from {formatCurrency(1200, "THB")}<span class="price-alt" data-thb="1200"></span> a night.
     </p>
     <hr />
     <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} />

@@ -30,14 +30,14 @@
 		"astro-llms-md": "^2.2.2",
 		"astro-robots-txt": "^1.0.0",
 		"open-props": "^1.7.23",
-		"sharp": "^0.34.5"
+		"sharp": "^0.35.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.15",
+		"@biomejs/biome": "2.5.1",
 		"node-gyp": "^13.0.0",
-		"oxfmt": "^0.51.0",
+		"oxfmt": "^0.56.0",
 		"postcss-jit-props": "^1.0.16",
-		"tsx": "^4.19.4"
+		"tsx": "^4.22.4"
 	},
 	"engines": {
 		"node": ">=22.12.0"

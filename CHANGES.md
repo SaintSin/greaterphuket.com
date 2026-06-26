@@ -7,6 +7,7 @@
 Ported the full client-side currency conversion system from `get-real-ssr-tests`. Prices stored in THB, converted in-browser using rates baked in at build time — no runtime API calls.
 
 **Files added:**
+
 - `scripts/generate-exchange-rates.ts` — fetches live rates from apilayer.net, writes `src/data/exchangeRates.ts`; skips if already run today
 - `scripts/debug-logger.ts` — logger utility used by the build script
 - `src/data/exchangeRates.ts` — generated rate data (THB→AUD/EUR/GBP/HKD/SGD/USD)
@@ -16,6 +17,7 @@ Ported the full client-side currency conversion system from `get-real-ssr-tests`
 - `netlify/edge-functions/add-country-header.js` — injects `<meta name="x-country">` on every HTML response using Netlify CDN geo data
 
 **Config changes:**
+
 - `package.json` — added `generate:rates`, `predev`, `prebuild` scripts; added `tsx ^4.19.4` as devDependency
 - `tsconfig.json` — added `@data/*` and `@utils/*` path aliases
 - `netlify.toml` — added `[[edge_functions]]` config for `add-country-header`
@@ -32,6 +34,7 @@ Test geo detection locally by appending `?country=GB` to any URL.
 Added Pandabox from the `pandabox-2` experiment — a dependency-free lightbox using Astro content collections and native `<Picture>` for optimised images.
 
 **Files added:**
+
 - `src/components/Pandabox.astro` — production all-in-one component (TS and CSS inlined)
 - `src/content.config.ts` — `galleries` content collection definition
 - `src/content/galleries/panda.json` — sample gallery (12 images)
@@ -57,11 +60,13 @@ Added [`astro-animations`](https://github.com/SaintSin/astro-animations) (`^0.0.
 **Installed via:** `pnpm add astro-animations`
 
 **Components available:**
+
 - `<Animate>` — wraps elements with CSS animation on entry
 - `<ScrollEffect>` — triggers animations as elements scroll into view
 - `<astro-animations>` — base integration component
 
 **Usage:**
+
 ```astro
 ---
 import { Animate, ScrollEffect } from 'astro-animations';
@@ -75,10 +80,12 @@ import { Animate, ScrollEffect } from 'astro-animations';
 Added CSS and JS from the `layout-bleeds` experiment to support full-bleed split-screen sections.
 
 **Files added:**
+
 - `src/styles/two_column.css` — 4-column grid layout with bleed, contained, centered, and overlay variants
 - `src/scripts/image-sizes.ts` — JS height-matcher that sizes images to match their paired content block
 
 **Tokens added to `src/styles/_tokens.css`:**
+
 - `--wrapper-padding-inline: 2rem`
 - `--wrapper-max-width: var(--max-content-width)`
 

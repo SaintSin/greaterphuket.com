@@ -11,12 +11,14 @@ Integrated analytics system from pandalytics-2 to track Core Web Vitals and page
 Server-side function that receives analytics data from the client and stores it in Turso database.
 
 **Key functionality:**
+
 - Accepts POST requests with metric data
 - Performs browser detection from user agent
 - Inserts session and pageview data into Turso
 - Requires `PANDALYTICS_TURSO_REST_ENDPOINT` and `PANDALYTICS_TURSO_API_TOKEN` in `.env`
 
 **Database tables created:**
+
 - `sessions` - tracks unique browser sessions
 - `pageviews` - tracks individual page visits with Core Web Vitals
 
@@ -29,6 +31,7 @@ Client-side component that tracks user behavior and Core Web Vitals.
 The component uses `define:vars` to inject variables from Astro's build context, but Astro 6 doesn't process `define:vars` on inline scripts.
 
 **Before (broken):**
+
 ```astro
 ---
 const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
@@ -45,6 +48,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 ```
 
 **After (working):**
+
 ```astro
 ---
 // Remove build-time siteId extraction - use browser API instead
@@ -61,6 +65,7 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 ```
 
 **What the script tracks:**
+
 - Session ID (stored in sessionStorage, unique per browser session)
 - Page URL and path
 - Core Web Vitals:
@@ -80,11 +85,13 @@ const siteId = Astro.site ? new URL(Astro.site).hostname : 'localhost';
 The initial token was **read-only** and couldn't write to the database.
 
 **Before (read-only):**
+
 ```
 PANDALYTICS_TURSO_API_TOKEN=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicm8iLCJpYXQiOjE3NjMxMjY5MTYsImlkIjoiMzNkMmQzMzktMTNhNC00NzI1LWE1MTAtMmRiNTBiZGYzOGNiIiwicmlkIjoiYjI2OTU5YjQtMGI2My00YzNlLTljZTctMjRjZGJiZWJjY2Y2In0.Fb32_...
 ```
 
 **After (write-enabled):**
+
 ```
 PANDALYTICS_TURSO_API_TOKEN=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjMyMDc2NzIsImlkIjoiMzNkMmQzMzktMTNhNC00NzI1LWE1MTAtMmRiNTBiZGYzOGNiIiwicmlkIjoiYjI2OTU5YjQtMGI2My00YzNlLTljZTctMjRjZGJiZWJjY2Y2In0.T8bkrvu...
 ```
@@ -127,6 +134,7 @@ import Analytics from "@components/page/Analytics.astro";
 ## Monitoring
 
 Check Netlify Function logs in:
+
 - Netlify Dashboard → Functions → pandalytics
 - Look for `"Pageview recorded:"` messages when real traffic hits
 

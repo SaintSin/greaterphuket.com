@@ -225,6 +225,25 @@ export function updateAllPrices(currency: CurrencyCode): void {
 
 		priceElement.textContent = formattedPrice;
 	}
+
+	// price-alt: shows converted amount in brackets after static THB text.
+	// Empty when THB is selected.
+	const altElements = document.querySelectorAll<HTMLElement>(".price-alt");
+	for (const el of altElements) {
+		const thbValue = el.dataset.thb;
+		if (!thbValue) continue;
+		const amountInTHB = parseFloat(thbValue);
+		if (Number.isNaN(amountInTHB)) continue;
+
+		if (currency === "THB") {
+			el.textContent = "";
+		} else {
+			const currencyData = currencies[currency];
+			if (!currencyData) continue;
+			const converted = amountInTHB * currencyData.rate;
+			el.textContent = ` (${formatCurrency(converted, currency, { maximumFractionDigits: 2 })})`;
+		}
+	}
 }
 
 /**

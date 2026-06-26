@@ -2,5 +2,5 @@
 directory = "netlify/functions"
 
 [[edge_functions]]
-  function = "add-country-header"
-  path = "/*"
+function = "add-country-header"
+path = "/*"
