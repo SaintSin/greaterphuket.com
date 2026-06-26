@@ -29,6 +29,7 @@
 		"astro-icon": "^1.1.5",
 		"astro-llms-md": "^2.2.2",
 		"astro-robots-txt": "^1.0.0",
+		"astro-zoom": "^0.1.1",
 		"open-props": "^1.7.23",
 		"sharp": "^0.35.2"
 	},

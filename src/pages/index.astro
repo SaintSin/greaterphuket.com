@@ -2,7 +2,9 @@
 import Pandabox from "@components/Pandabox.astro";
 import Layout from "@layouts/BaseLayout.astro";
 import { formatCurrency } from "@utils/currencyHelper";
+import { AstroZoom } from "astro-zoom";
 
+import photo from "@images/panda-01.jpg";
 const meta = {
 	title: "Greater Phuket",
 	description: "Phuket and beyond: Phang Nga, Krabbi and more…",
@@ -22,7 +24,14 @@ const meta = {
       and a guesthouse room from {formatCurrency(1200, "THB")}<span class="price-alt" data-thb="1200"></span> a night.
     </p>
     <hr />
-    <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} />
+    <AstroZoom
+  src={photo}
+  alt="A descriptive alt text"
+  caption="Brief caption shown on the page"
+  modalCaption="An expanded description shown inside the zoomed modal."
+/>
+<hr/>
+    <!-- <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} /> -->
   </main>
   <section class="content-grid"></section>
 </Layout>

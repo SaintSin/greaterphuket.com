@@ -2,6 +2,38 @@
 
 ## 2026-06-26
 
+### astro-zoom
+
+Added [`astro-zoom`](https://www.npmjs.com/package/astro-zoom) (`^0.1.0`) — a lightweight image zoom component we built for this project, inspired by medium-zoom. ~2.8KB shipped (<1.4KB gzipped). Uses Astro's `<Picture>` pipeline, `<dialog>`-based (no z-index battles), ClientRouter compatible, `prefers-reduced-motion` aware.
+
+**Two usage modes:**
+
+**Option A — `<AstroZoom>` wrapper** (recommended for Astro images):
+```astro
+---
+import { AstroZoom } from 'astro-zoom';
+import photo from '../assets/photo.jpg';
+---
+<AstroZoom
+  src={photo}
+  alt="Description"
+  caption="Brief caption on the page"
+  modalCaption="Expanded description in the modal"
+/>
+```
+
+**Option B — `<AstroZoomInit>` + `data-zoom`** (medium-zoom drop-in, works on any `<img>`):
+```astro
+<!-- In layout -->
+import { AstroZoomInit } from 'astro-zoom';
+<AstroZoomInit />
+
+<!-- On any page -->
+<img src="..." alt="..." data-zoom />
+```
+
+---
+
 ### Currency conversion system
 
 Ported the full client-side currency conversion system from `get-real-ssr-tests`. Prices stored in THB, converted in-browser using rates baked in at build time — no runtime API calls.

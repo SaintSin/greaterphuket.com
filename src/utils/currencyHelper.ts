@@ -241,7 +241,7 @@ export function updateAllPrices(currency: CurrencyCode): void {
 			const currencyData = currencies[currency];
 			if (!currencyData) continue;
 			const converted = amountInTHB * currencyData.rate;
-			el.textContent = ` (${formatCurrency(converted, currency, { maximumFractionDigits: 2 })})`;
+			el.textContent = ` (${formatCurrency(converted, currency, { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`;
 		}
 	}
 }
