@@ -3,6 +3,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"generate:rates": "tsx scripts/generate-exchange-rates.ts",
+		"predev": "pnpm run generate:rates",
+		"prebuild": "pnpm run generate:rates",
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
@@ -33,7 +36,8 @@
 		"@biomejs/biome": "2.4.15",
 		"node-gyp": "^13.0.0",
 		"oxfmt": "^0.51.0",
-		"postcss-jit-props": "^1.0.16"
+		"postcss-jit-props": "^1.0.16",
+		"tsx": "^4.19.4"
 	},
 	"engines": {
 		"node": ">=22.12.0"

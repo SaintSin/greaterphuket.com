@@ -2,12 +2,14 @@
 // @components/page/Header.astro
 
 import Nav from "@components/global/HeaderNav.astro";
+import PriceConvert from "@components/utility/PriceConvert.astro";
 ---
 
 <header class="header">
-  <div class="wrapper">
+  <div class="wrapper header-inner">
     <h2>Header</h2>
     <Nav />
+    <PriceConvert />
   </div>
 </header>
 <style>
@@ -18,5 +20,11 @@ import Nav from "@components/global/HeaderNav.astro";
     margin-block-end: var(--size-fluid-5);
     background: var(--color-surface);
     padding-block: var(--size-fluid-1);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    justify-content: space-between;
   }
 </style>

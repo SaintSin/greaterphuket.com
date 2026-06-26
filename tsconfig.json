@@ -11,9 +11,11 @@
 			"@config/*": ["src/config/*"],
 			"@images/*": ["src/assets/images/*"],
 			"@layouts/*": ["src/layouts/*"],
+			"@data/*": ["src/data/*"],
 			"@scripts/*": ["src/scripts/*"],
 			"@styles/*": ["src/styles/*"],
-			"@types": ["src/types"]
+			"@types": ["src/types"],
+			"@utils/*": ["src/utils/*"]
 		}
 	}
 }

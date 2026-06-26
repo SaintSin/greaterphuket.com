@@ -1,0 +1,391 @@
+---
+// src/components/utility/PriceConvert.astro
+// 2026-06-23T00:00:00Z
+// Flags: https://icones.js.org/collection/flag
+---
+
+<form
+	id="currency-conversion-form"
+	aria-label="Select display currency"
+	toolname="set_display_currency"
+	tooldescription="Changes the currency used to display property prices across the site"
+>
+	<label for="currency-select" class="visually-hidden">Display currency</label>
+	<select id="currency-select" name="currency" required toolparamdescription="Currency code to display prices in (THB, USD, EUR, GBP, SGD, HKD, AUD)">
+		<button><selectedcontent></selectedcontent></button>
+		<option value="THB">
+			<span>฿ THB</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cg fill-rule='evenodd'%3E%3Cpath fill='%23f4f5f8' d='M0 0h640v480H0z'/%3E%3Cpath fill='%232d2a4a' d='M0 162.5h640v160H0z'/%3E%3Cpath fill='%23a51931' d='M0 0h640v82.5H0zm0 400h640v80H0z'/%3E%3C/g%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="USD">
+			<span>$ USD</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cpath fill='%23bd3d44' d='M0 0h640v480H0'/%3E%3Cpath stroke='%23fff' stroke-width='37' d='M0 55.3h640M0 129h640M0 203h640M0 277h640M0 351h640M0 425h640'/%3E%3Cpath fill='%23192f5d' d='M0 0h364.8v258.5H0'/%3E%3Cmarker id='flagUs4x30' markerHeight='30' markerWidth='30'%3E%3Cpath fill='%23fff' d='m14 0l9 27L0 10h28L5 27z'/%3E%3C/marker%3E%3Cpath fill='none' marker-mid='url(%23flagUs4x30)' d='m0 0l16 11h61h61h61h61h60L47 37h61h61h60h61L16 63h61h61h61h61h60L47 89h61h61h60h61L16 115h61h61h61h61h60L47 141h61h61h60h61L16 166h61h61h61h61h60L47 192h61h61h60h61L16 218h61h61h61h61h60z'/%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="EUR">
+			<span>€ EUR</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cdefs%3E%3Cg id='flagEu4x30'%3E%3Cg id='flagEu4x31'%3E%3Cpath id='flagEu4x32' d='m0-1l-.3 1l.5.1z'/%3E%3Cuse href='%23flagEu4x32' transform='scale(-1 1)'/%3E%3C/g%3E%3Cg id='flagEu4x33'%3E%3Cuse href='%23flagEu4x31' transform='rotate(72)'/%3E%3Cuse href='%23flagEu4x31' transform='rotate(144)'/%3E%3C/g%3E%3Cuse href='%23flagEu4x33' transform='scale(-1 1)'/%3E%3C/g%3E%3C/defs%3E%3Cpath fill='%23039' d='M0 0h640v480H0z'/%3E%3Cg fill='%23fc0' transform='translate(320 242.3)scale(23.7037)'%3E%3Cuse width='100%25' height='100%25' y='-6' href='%23flagEu4x30'/%3E%3Cuse width='100%25' height='100%25' y='6' href='%23flagEu4x30'/%3E%3Cg id='flagEu4x34'%3E%3Cuse width='100%25' height='100%25' x='-6' href='%23flagEu4x30'/%3E%3Cuse width='100%25' height='100%25' href='%23flagEu4x30' transform='rotate(-144 -2.3 -2.1)'/%3E%3Cuse width='100%25' height='100%25' href='%23flagEu4x30' transform='rotate(144 -2.1 -2.3)'/%3E%3Cuse width='100%25' height='100%25' href='%23flagEu4x30' transform='rotate(72 -4.7 -2)'/%3E%3Cuse width='100%25' height='100%25' href='%23flagEu4x30' transform='rotate(72 -5 .5)'/%3E%3C/g%3E%3Cuse width='100%25' height='100%25' href='%23flagEu4x34' transform='scale(-1 1)'/%3E%3C/g%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="GBP">
+			<span>£ GBP</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cpath fill='%23012169' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFF' d='m75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301L81 480H0v-60l239-178L0 64V0z'/%3E%3Cpath fill='%23C8102E' d='m424 281l216 159v40L369 281zm-184 20l6 35L54 480H0zM640 0v3L391 191l2-44L590 0zM0 0l239 176h-60L0 42z'/%3E%3Cpath fill='%23FFF' d='M241 0v480h160V0zM0 160v160h640V160z'/%3E%3Cpath fill='%23C8102E' d='M0 193v96h640v-96zM273 0v480h96V0z'/%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="SGD">
+			<span>S$ SGD</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cdefs%3E%3CclipPath id='flagSg4x30'%3E%3Cpath fill-opacity='.7' d='M0 0h640v480H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg fill-rule='evenodd' clip-path='url(%23flagSg4x30)'%3E%3Cpath fill='%23fff' d='M-20 0h720v480H-20z'/%3E%3Cpath fill='%23df0000' d='M-20 0h720v240H-20z'/%3E%3Cpath fill='%23fff' d='M146 40.2a84.4 84.4 0 0 0 .8 165.2a86 86 0 0 1-106.6-59a86 86 0 0 1 59-106c16-4.6 30.8-4.7 46.9-.2z'/%3E%3Cpath fill='%23fff' d='m133 110l4.9 15l-13-9.2l-12.8 9.4l4.7-15.2l-12.8-9.3l15.9-.2l5-15l5 15h15.8zm17.5 52l5 15.1l-13-9.2l-12.9 9.3l4.8-15.1l-12.8-9.4l15.9-.1l4.9-15.1l5 15h16zm58.5-.4l4.9 15.2l-13-9.3l-12.8 9.3l4.7-15.1l-12.8-9.3l15.9-.2l5-15l5 15h15.8zm17.4-51.6l4.9 15.1l-13-9.2l-12.8 9.3l4.8-15.1l-12.9-9.4l16-.1l4.8-15.1l5 15h16zm-46.3-34.3l5 15.2l-13-9.3l-12.9 9.4l4.8-15.2l-12.8-9.4l15.8-.1l5-15.1l5 15h16z'/%3E%3C/g%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="HKD">
+			<span>HK$ HKD</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cpath fill='%23EC1B2E' d='M0 0h640v480H0'/%3E%3Cpath id='flagHk4x30' fill='%23fff' d='M346.3 103.1C267 98 230.6 201.9 305.6 240.3c-26-22.4-20.6-55.3-10.1-72.4l1.9 1.1c-13.8 23.5-11.2 52.7 11.1 71c-12.7-12.3-9.5-39 12.1-48.9s23.6-39.3 16.4-49.1q-14.7-25.6 9.3-38.9M307.9 164l-4.7 7.4l-1.8-8.6l-8.6-2.3l7.8-4.3l-.6-8.9l6.5 6.1l8.3-3.3l-3.7 8.1l5.6 6.8z'/%3E%3Cuse href='%23flagHk4x30' transform='rotate(72 312.5 243.5)'/%3E%3Cuse href='%23flagHk4x30' transform='rotate(144 312.5 243.5)'/%3E%3Cuse href='%23flagHk4x30' transform='rotate(216 312.5 243.5)'/%3E%3Cuse href='%23flagHk4x30' transform='rotate(288 312.5 243.5)'/%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+		<option value="AUD">
+			<span>A$ AUD</span>
+			<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.34em' height='1em' viewBox='0 0 640 480'%3E%3Cpath fill='%2300008B' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23fff' d='m37.5 0l122 90.5L281 0h39v31l-120 89.5l120 89V240h-40l-120-89.5L40.5 240H0v-30l119.5-89L0 32V0z'/%3E%3Cpath fill='red' d='M212 140.5L320 220v20l-135.5-99.5zm-92 10l3 17.5l-96 72H0zM320 0v1.5l-124.5 94l1-22L295 0zM0 0l119.5 88h-30L0 21z'/%3E%3Cpath fill='%23fff' d='M120.5 0v240h80V0zM0 80v80h320V80z'/%3E%3Cpath fill='red' d='M0 96.5v48h320v-48zM136.5 0v240h48V0z'/%3E%3Cpath fill='%23fff' d='m527 396.7l-20.5 2.6l2.2 20.5l-14.8-14.4l-14.7 14.5l2-20.5l-20.5-2.4l17.3-11.2l-10.9-17.5l19.6 6.5l6.9-19.5l7.1 19.4l19.5-6.7l-10.7 17.6zm-3.7-117.2l2.7-13l-9.8-9l13.2-1.5l5.5-12.1l5.5 12.1l13.2 1.5l-9.8 9l2.7 13l-11.6-6.6zm-104.1-60l-20.3 2.2l1.8 20.3l-14.4-14.5l-14.8 14.1l2.4-20.3l-20.2-2.7l17.3-10.8l-10.5-17.5l19.3 6.8L387 178l6.7 19.3l19.4-6.3l-10.9 17.3l17.1 11.2ZM623 186.7l-20.9 2.7l2.3 20.9l-15.1-14.7l-15 14.8l2.1-21l-20.9-2.4l17.7-11.5l-11.1-17.9l20 6.7l7-19.8l7.2 19.8l19.9-6.9l-11 18zm-96.1-83.5l-20.7 2.3l1.9 20.8l-14.7-14.8l-15.1 14.4l2.4-20.7l-20.7-2.8l17.7-11L467 73.5l19.7 6.9l7.3-19.5l6.8 19.7l19.8-6.5l-11.1 17.6zM234 385.7l-45.8 5.4l4.6 45.9l-32.8-32.4l-33 32.2l4.9-45.9l-45.8-5.8l38.9-24.8l-24-39.4l43.6 15l15.8-43.4l15.5 43.5l43.7-14.7l-24.3 39.2l38.8 25.1Z'/%3E%3C/svg%3E" alt="" width="20" height="15">
+		</option>
+	</select>
+</form>
+
+<style>
+	#currency-conversion-form {
+		display: inline-flex;
+		align-items: center;
+		border: 1px solid oklch(100% 0 0 / 0.22);
+		border-radius: var(--radius-s, 0.25rem);
+		transition: border-color 0.15s ease;
+
+		&:focus-within {
+			border-color: oklch(100% 0 0 / 0.5);
+		}
+	}
+
+	select {
+		/* Baseline: styled via background-image chevron */
+		appearance: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+		border: none;
+		outline: none;
+		background: oklch(100% 0 0 / 0.12)
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23fff' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A")
+			right 0.5em center / 1.1em no-repeat;
+		padding-inline: var(--space-2xs, 0.5em);
+		padding-block: var(--space-2xs, 0.4em);
+		color: oklch(100% 0 0 / 0.92);
+		font-size: var(--step--2);
+		font-family: var(--font-body);
+	}
+
+	/* Top-level @supports avoids a Chrome bug where @supports nested inside a style rule
+	   evaluates incorrectly after esbuild preserves CSS nesting (Vite 8 / esbuild 0.28+) */
+	@supports (appearance: base-select) {
+		@media (hover: hover) {
+			select,
+			select::picker(select) {
+				appearance: base-select;
+			}
+		}
+	}
+
+	/* Top-level @media + @supports avoids a Chrome/esbuild nesting interaction bug */
+	@media (hover: hover) {
+		@supports (appearance: base-select) {
+			select {
+				background: oklch(100% 0 0 / 0.12);
+				background-image: none;
+				border: none;
+				outline: none;
+				border-radius: var(--radius-s);
+				padding-inline: var(--space-2xs);
+				padding-inline-start: 12px;
+				/* Grid: text col | flag col | picker-icon col */
+				display: grid;
+				grid-template-columns: 62px 24px var(--step--1);
+				column-gap: 4px;
+
+				&:focus-visible {
+					outline: none;
+				}
+
+				&::picker-icon {
+					content: "";
+					background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23fff' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A");
+					width: var(--step--1);
+					height: var(--step--1);
+					transition: rotate 0.2s ease-out;
+					grid-column: 3;
+					grid-row: 1;
+					justify-self: center;
+					align-self: center;
+				}
+
+				&:open::picker-icon {
+					rotate: 180deg;
+				}
+
+				&::picker(select) {
+					background: var(--navy, oklch(22% 0.15 268));
+					border: 1px solid oklch(100% 0 0 / 0.15);
+					border-radius: var(--radius-s);
+					padding: 0;
+					margin-top: 5px;
+					interpolate-size: allow-keywords;
+					overflow: hidden;
+					height: 0;
+					opacity: 0;
+					transition:
+						height 0.25s ease-out,
+						opacity 0.2s ease-out,
+						overlay 0.25s allow-discrete,
+						display 0.25s allow-discrete;
+				}
+
+				&:open::picker(select) {
+					opacity: 1;
+					height: auto;
+
+					@starting-style {
+						opacity: 0;
+						height: 0;
+					}
+				}
+			}
+
+			selectedcontent {
+				display: grid;
+				grid-template-columns: 62px 24px;
+				column-gap: 4px;
+				align-items: center;
+
+				img {
+					display: block;
+					border-radius: 1px;
+					box-shadow: 0 0 0 0.5px oklch(100% 0 0 / 0.25);
+				}
+			}
+
+			option {
+				display: grid;
+				grid-template-columns: 62px 24px;
+				column-gap: 4px;
+				align-items: center;
+				padding: 8px 12px;
+				background: var(--navy, oklch(22% 0.15 268));
+				color: oklch(100% 0 0);
+				font-size: var(--step--2);
+				font-family: var(--font-body);
+				border-top: 1px solid oklch(100% 0 0 / 0.12);
+				cursor: pointer;
+				transition:
+					background 0.15s ease-in-out,
+					color 0.15s ease-in-out;
+
+				&:first-child {
+					border-top: none;
+				}
+
+				&:where(:hover, :focus) {
+					background: oklch(100% 0 0 / 0.15);
+					color: oklch(100% 0 0);
+				}
+
+				&:checked {
+					background: oklch(100% 0 0 / 0.08);
+					color: var(--gold, oklch(72% 0.12 85));
+				}
+
+				&::checkmark {
+					display: none;
+				}
+
+				img {
+					display: block;
+					border-radius: 1px;
+					box-shadow: 0 0 0 0.5px oklch(100% 0 0 / 0.25);
+				}
+			}
+		}
+	}
+
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+</style>
+
+<script>
+	import {
+		getSavedCurrency,
+		saveCurrency,
+		updateAllPrices,
+		dispatchCurrencyChange,
+		type CurrencyCode,
+	} from "@utils/currencyHelper";
+	import { getCountryFromNetlify } from "@utils/geoHelper";
+
+	// Country to currency mapping for your available currencies
+	const countryToCurrency: Record<string, CurrencyCode> = {
+		// United States
+		US: "USD",
+		// United Kingdom
+		GB: "GBP",
+		// European Union countries
+		AD: "EUR",
+		AT: "EUR",
+		BE: "EUR",
+		CY: "EUR",
+		EE: "EUR",
+		FI: "EUR",
+		FR: "EUR",
+		DE: "EUR",
+		GR: "EUR",
+		IE: "EUR",
+		IT: "EUR",
+		LV: "EUR",
+		LT: "EUR",
+		LU: "EUR",
+		MT: "EUR",
+		MC: "EUR",
+		ME: "EUR",
+		NL: "EUR",
+		PT: "EUR",
+		SM: "EUR",
+		SK: "EUR",
+		SI: "EUR",
+		ES: "EUR",
+		VA: "EUR",
+		XK: "EUR",
+		// Australia
+		AU: "AUD",
+		// Singapore
+		SG: "SGD",
+		// Hong Kong
+		HK: "HKD",
+		// Thailand (base currency)
+		TH: "THB",
+	};
+
+	function getPreferredCurrency() {
+		// First check if user has already saved a preference
+		const savedCurrency = getSavedCurrency();
+		if (savedCurrency && savedCurrency !== "THB") {
+			// console.log("Using saved currency preference:", savedCurrency);
+			return savedCurrency;
+		}
+
+		// Check if we've already detected location this session
+		const sessionDetected = sessionStorage.getItem("currency-geo-detected");
+		if (sessionDetected) {
+			const detectedCurrency =
+				sessionStorage.getItem("currency-geo-result") || "THB";
+			// console.log("Using session-cached geo detection:", detectedCurrency);
+			return detectedCurrency;
+		}
+
+		// Try to detect country from Netlify headers (only runs once per session now)
+		const country = getCountryFromNetlify();
+		if (country) {
+			const currency = countryToCurrency[country];
+			if (currency) {
+				// console.log(`Detected country: ${country}, setting currency to: ${currency}`);
+				// Cache the detection result for this session
+				sessionStorage.setItem("currency-geo-detected", "true");
+				sessionStorage.setItem("currency-geo-result", currency);
+				sessionStorage.setItem("currency-geo-country", country);
+				return currency;
+			}
+		}
+
+		// Fallback to Thai Baht (also cached to prevent repeated detection attempts)
+		// console.log("Defaulting to THB");
+		sessionStorage.setItem("currency-geo-detected", "true");
+		sessionStorage.setItem("currency-geo-result", "THB");
+		return "THB";
+	}
+
+	function initCurrencyConverter() {
+		const dropdown = document.getElementById("currency-select");
+
+		if (!(dropdown instanceof HTMLSelectElement)) {
+			return;
+		}
+
+		// Prevent double initialization
+		if (dropdown.dataset.initialized === "true") {
+			return;
+		}
+		dropdown.dataset.initialized = "true";
+
+		// Get the preferred currency (saved preference, geolocation, or default)
+		const preferredCurrency = getPreferredCurrency();
+
+		// Set the dropdown value
+		dropdown.value = preferredCurrency;
+
+		// Update all prices with preferred currency
+		updateAllPrices(preferredCurrency);
+
+		// Save this as the user's preference if it was auto-detected
+		const savedCurrency = getSavedCurrency();
+		const wasAutoDetected =
+			sessionStorage.getItem("currency-geo-detected") === "true";
+
+		if (
+			(!savedCurrency || savedCurrency === "THB") &&
+			wasAutoDetected &&
+			preferredCurrency !== "THB"
+		) {
+			// Only save to localStorage if this was a successful auto-detection
+			saveCurrency(preferredCurrency);
+
+			// Dispatch event for location indicator (only on first detection)
+			const isFirstDetection = !sessionStorage.getItem("currency-geo-notified");
+			if (isFirstDetection) {
+				const detectedCountry =
+					sessionStorage.getItem("currency-geo-country") || "Unknown";
+				const event = new CustomEvent("currencyAutoDetected", {
+					detail: {
+						country: detectedCountry,
+						currency: preferredCurrency,
+					},
+				});
+				document.dispatchEvent(event);
+				sessionStorage.setItem("currency-geo-notified", "true");
+			}
+		}
+
+		// Listen for currency changes
+		dropdown.addEventListener("change", () => {
+			const selectedCurrency = dropdown.value as CurrencyCode;
+
+			// Save the new selection
+			saveCurrency(selectedCurrency);
+
+			// Update all prices on the page
+			updateAllPrices(selectedCurrency);
+
+			// Dispatch custom event for other components to listen to
+			dispatchCurrencyChange(selectedCurrency);
+		});
+	}
+
+	// Initialize on Astro page transitions
+	document.addEventListener("astro:page-load", initCurrencyConverter);
+
+	// Also initialize on initial page load (for non-view-transition navigations)
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initCurrencyConverter);
+	} else {
+		// Use requestAnimationFrame to ensure DOM is fully ready
+		requestAnimationFrame(() => {
+			initCurrencyConverter();
+		});
+	}
+</script>

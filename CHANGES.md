@@ -2,6 +2,31 @@
 
 ## 2026-06-26
 
+### Currency conversion system
+
+Ported the full client-side currency conversion system from `get-real-ssr-tests`. Prices stored in THB, converted in-browser using rates baked in at build time — no runtime API calls.
+
+**Files added:**
+- `scripts/generate-exchange-rates.ts` — fetches live rates from apilayer.net, writes `src/data/exchangeRates.ts`; skips if already run today
+- `scripts/debug-logger.ts` — logger utility used by the build script
+- `src/data/exchangeRates.ts` — generated rate data (THB→AUD/EUR/GBP/HKD/SGD/USD)
+- `src/utils/currencyHelper.ts` — `updateAllPrices()`, `formatCurrency()`, `getSavedCurrency()`, `saveCurrency()`, `dispatchCurrencyChange()`
+- `src/utils/geoHelper.ts` — reads Netlify geo country from injected `<meta name="x-country">`
+- `src/components/utility/PriceConvert.astro` — currency dropdown with flag icons; auto-detects visitor country via geo, falls back to localStorage, then THB
+- `netlify/edge-functions/add-country-header.js` — injects `<meta name="x-country">` on every HTML response using Netlify CDN geo data
+
+**Config changes:**
+- `package.json` — added `generate:rates`, `predev`, `prebuild` scripts; added `tsx ^4.19.4` as devDependency
+- `tsconfig.json` — added `@data/*` and `@utils/*` path aliases
+- `netlify.toml` — added `[[edge_functions]]` config for `add-country-header`
+- `.env` — `EXCHANGE_RATES_API_KEY` (also set as a Netlify environment variable for deploys)
+
+**Usage:** place `<PriceConvert />` in the site header. Mark any price element with `class="price"` and `data-thb={rawThbValue}`. Use `class="price price-m"` for millions shorthand (e.g. `฿5.0m`).
+
+Test geo detection locally by appending `?country=GB` to any URL.
+
+---
+
 ### Pandabox lightbox gallery
 
 Added Pandabox from the `pandabox-2` experiment — a dependency-free lightbox using Astro content collections and native `<Picture>` for optimised images.

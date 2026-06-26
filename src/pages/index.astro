@@ -1,6 +1,9 @@
 ---
 import Pandabox from "@components/Pandabox.astro";
 import Layout from "@layouts/BaseLayout.astro";
+import { formatCurrency } from "@utils/currencyHelper";
+
+const samplePrices = [3800000, 6200000, 12500000, 22000000];
 
 const meta = {
 	title: "Greater Phuket",
@@ -15,7 +18,19 @@ const meta = {
     <h1>Greater Phuket</h1>
     <p>Phuket, Phang Nga, Krabbi and beyond.</p>
     <hr />
+    <p>
+      {samplePrices.map((thb, i) => (
+        <>
+          <span class="price price-m" data-thb={thb}>
+            {formatCurrency(thb, "THB", { showMillions: true })}
+          </span>
+          {i < samplePrices.length - 1 ? " · " : ""}
+        </>
+      ))}
+    </p>
+    <hr />
     <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} />
   </main>
   <section class="content-grid"></section>
 </Layout>
+
