@@ -1,0 +1,135 @@
+/* Two Column Layout */
+/* Must be imported as a global style — scoped Astro styles do not apply to child elements correctly */
+
+@layer base, variants;
+
+@layer base {
+	img {
+		display: block;
+	}
+	.full-width-split-screen {
+		padding-block: 0;
+	}
+	.full-width-split-screen img {
+		object-fit: cover;
+	}
+
+	.full-width-split-screen > :not(img) {
+		padding-inline: var(--wrapper-padding-inline);
+		padding-block: var(--wrapper-padding-inline);
+	}
+
+	@media (min-width: 600px) {
+		.full-width-split-screen {
+			display: grid;
+			position: relative;
+			grid-template-columns:
+				minmax(var(--wrapper-padding-inline), 1fr)
+				minmax(0, calc(var(--wrapper-max-width) / 2))
+				minmax(0, calc(var(--wrapper-max-width) / 2))
+				minmax(var(--wrapper-padding-inline), 1fr);
+			grid-template-areas: "left-bleed left-col right-col right-bleed";
+		}
+		.full-width-split-screen:not(.overlay) > img:first-child {
+			grid-column: 1 / 3;
+		}
+		.full-width-split-screen:not(.overlay) > img:last-child {
+			grid-column: 3 / -1;
+		}
+		.full-width-split-screen:not(.overlay) > :not(img) {
+			display: grid;
+			align-content: start;
+		}
+		.full-width-split-screen:not(.overlay) > :not(img):first-child {
+			grid-column: 2 / 3;
+		}
+		.full-width-split-screen:not(.overlay) > :not(img):last-child {
+			grid-column: 3 / 4;
+		}
+		.full-width-split-screen:not(.overlay) > :not(img)::before {
+			position: absolute;
+			inset: 0;
+			background: inherit;
+			content: " ";
+		}
+		.full-width-split-screen:not(.overlay) > :not(img):first-child::before {
+			grid-column: 1 / 2;
+		}
+		.full-width-split-screen:not(.overlay) > :not(img):last-child::before {
+			grid-column: 4 / 5;
+		}
+	}
+}
+
+@layer variants {
+	/* Overlay variant - mobile styles */
+	.overlay {
+		display: grid;
+	}
+	.overlay > img:first-of-type {
+		grid-row: 1;
+		grid-column: 1;
+	}
+	.overlay > div:first-of-type {
+		display: grid;
+		grid-row: 1;
+		grid-column: 1;
+		align-content: start;
+	}
+	.overlay > img:last-of-type {
+		grid-row: 2;
+		grid-column: 1;
+	}
+	.overlay > div:last-of-type {
+		display: grid;
+		grid-row: 2;
+		grid-column: 1;
+		align-content: start;
+	}
+
+	@media (min-width: 600px) {
+		/* Overlay variant - desktop: all elements on row 1, overlaid */
+		.full-width-split-screen.overlay > img {
+			grid-row: 1;
+			height: 100%;
+		}
+		.full-width-split-screen.overlay > img:first-of-type {
+			grid-column: 1 / 3;
+		}
+		.full-width-split-screen.overlay > img:last-of-type {
+			grid-column: 3 / 5;
+		}
+		.full-width-split-screen.overlay > div {
+			display: grid;
+			grid-row: 1;
+			align-content: start;
+		}
+		.full-width-split-screen.overlay > div:first-of-type {
+			grid-column: 2 / 3;
+		}
+		.full-width-split-screen.overlay > div:last-of-type {
+			grid-column: 3 / 4;
+		}
+		.full-width-split-screen.overlay > div::before {
+			display: none;
+		}
+	}
+
+	@media (min-width: 600px) {
+		/* Contained variant - images stay in their column (no bleed) */
+		.full-width-split-screen.contained > img:first-child {
+			grid-column: 2 / 3;
+			padding-inline-start: var(--wrapper-padding-inline);
+		}
+		.full-width-split-screen.contained > img:last-child {
+			grid-column: 3 / 4;
+			padding-inline-end: var(--wrapper-padding-inline);
+		}
+
+		/* Centered variant - image spans both center columns */
+		.full-width-split-screen.centered > img {
+			grid-column: 2 / 4;
+			padding-inline-start: var(--wrapper-padding-inline);
+		}
+	}
+}

@@ -42,6 +42,10 @@
 	/* Custom pairs */
 	--space-s-l: clamp(1.13rem, calc(0.59rem + 2.68vw), 2.5rem);
 
+	/* Two-column full-bleed layout */
+	--wrapper-padding-inline: 2rem;
+	--wrapper-max-width: var(--max-content-width);
+
 	/* Breakpoints */
 
 	--breakpoint-sm: 640px;

@@ -14,14 +14,15 @@
 		"fmt:check": "oxfmt --check"
 	},
 	"dependencies": {
-		"@astrojs/compiler-rs": "^0.2.2",
+		"@astrojs/compiler-rs": "^0.2.3",
 		"@astrojs/netlify": "^8.0.0",
 		"@astrojs/partytown": "^2.1.7",
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.3",
-		"@felixicaza/astro-capo": "^1.1.0",
+		"@felixicaza/astro-capo": "^1.2.1",
 		"@iconify-json/ri": "^1.2.10",
-		"astro": "^7.0.2",
+		"astro": "^7.0.3",
+		"astro-animations": "^0.0.6",
 		"astro-icon": "^1.1.5",
 		"astro-llms-md": "^2.2.2",
 		"astro-robots-txt": "^1.0.0",

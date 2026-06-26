@@ -1,4 +1,5 @@
 ---
+import Pandabox from "@components/Pandabox.astro";
 import Layout from "@layouts/BaseLayout.astro";
 
 const meta = {
@@ -14,6 +15,7 @@ const meta = {
     <h1>Greater Phuket</h1>
     <p>Phuket, Phang Nga, Krabbi and beyond.</p>
     <hr />
+    <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} />
   </main>
   <section class="content-grid"></section>
 </Layout>

@@ -1,0 +1,1847 @@
+---
+// @components/Pandabox.astro
+// 26 June 2026
+
+// Navigation buttons are using inline SVG - this keeps the component dependency free.
+// However you may want to look at using the Astro Icon to handle these, https://www.astroicon.dev
+// Thumbnail image quality is set lower than main image, helps with PageSpeed Insights on mobile tests
+
+import { Picture } from "astro:assets";
+import { type CollectionEntry, getEntry } from "astro:content";
+
+interface Props {
+	galleryid: string;
+	gallery?: CollectionEntry<"galleries">;
+	transitionType?: string;
+	maxThumbnails?: number;
+	showThumbnails?: boolean;
+	className?: string;
+}
+
+const { galleryid, transitionType, maxThumbnails, showThumbnails, className } =
+	Astro.props;
+const gallery = await getEntry("galleries", galleryid);
+const images = gallery?.data.images ?? [];
+const thumbnailImages = maxThumbnails ? images.slice(0, maxThumbnails) : images;
+
+// Check for error states
+const hasNoGallery = !gallery;
+const hasNoImages = images.length === 0;
+const hasError = hasNoGallery || hasNoImages;
+---
+
+{hasError ? (
+  <section class="pandabox-error" id={"gallery-" + galleryid}>
+    <p class="error-message" role="alert">
+      {hasNoGallery ? `Gallery "${galleryid}" not found` : 'No images in this gallery'}
+    </p>
+  </section>
+) : (
+<section class={`thumbnail-container ${className || ''}`} id={"gallery-" + galleryid}>
+  {
+    thumbnailImages.map((image, index) => (
+      <button
+        data-index={index}
+        aria-label={`View image ${index + 1}: ${image.alt || 'Image ' + (index + 1)}`}
+        aria-haspopup="dialog"
+      >
+        <Picture
+          src={image.src}
+          alt={image.alt || `Gallery image ${index + 1}`}
+          formats={['avif', 'webp']}
+          layout="constrained"
+          width={300}
+          quality={30}
+          loading="eager"
+          sizes="(min-width: 640px) 300px, 100vw"
+          data-index={index}
+        />
+      </button>
+    ))
+  }
+  <dialog
+    class="lightbox-dialog"
+    data-option={transitionType || "fade"}
+    data-thumbnails={showThumbnails ? "true" : "false"}
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image gallery lightbox"
+  >
+    <!-- Screen reader announcements for navigation -->
+    <div class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+    <div class="lightbox-content" role="region" aria-live="polite" aria-atomic="true">
+      {
+        images.map((image, index) => (
+          <figure class="lightbox-image-container" id={`image-${index}`} aria-hidden="true">
+            {/* For performance, only the first 4 images are eager loaded, if we rely on lazy only there is a glitch on Chromoum browsers as the image is loaded. */}
+            <div class="lightbox-image-wrapper">
+              <Picture
+                src={image.src}
+                alt={image.alt || `Gallery image ${index + 1}`}
+                formats={['avif', 'webp']}
+                layout="full-width"
+                quality={40}
+                loading={index < 4 ? "eager" : "lazy"}
+                class="lightbox-image"
+                data-index={index}
+              />
+            </div>
+            <figcaption>
+              {image.title ? (
+                <p>
+                  {index + 1}. {image.title}
+                </p>
+              ) : null}
+              {image.description ? <p>{image.description}</p> : null}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <!-- Navigation buttons -->
+    <button class="prev-button" aria-label="Previous image">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+      >
+        <path
+          fill="currentColor"
+          d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2m8 15H11.85l5.58 5.573L16 24l-8-8l8-8l1.43 1.393L11.85 15H24Z"
+        >
+        </path>
+        <path
+          fill="none"
+          d="m16 8l1.43 1.393L11.85 15H24v2H11.85l5.58 5.573L16 24l-8-8z"
+        ></path>
+      </svg>
+    </button>
+    <button class="next-button" aria-label="Next image">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+      >
+        <path
+          fill="currentColor"
+          d="M2 16A14 14 0 1 0 16 2A14 14 0 0 0 2 16m6-1h12.15l-5.58-5.607L16 8l8 8l-8 8l-1.43-1.427L20.15 17H8Z"
+        >
+        </path>
+        <path
+          fill="none"
+          d="m16 8l-1.43 1.393L20.15 15H8v2h12.15l-5.58 5.573L16 24l8-8z"
+        ></path>
+      </svg>
+    </button>
+    <button class="close-button" aria-label="Close gallery">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+      >
+        <path
+          fill="currentColor"
+          d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z"
+        >
+        </path>
+      </svg>
+    </button>
+    {showThumbnails && (
+      <div class="lightbox-thumbnails" role="tablist" aria-label="Image thumbnails">
+        {images.map((image, index) => (
+          <button
+            class="lightbox-thumbnail"
+            data-thumbnail-index={index}
+            role="tab"
+            aria-label={`Go to image ${index + 1}`}
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? 0 : -1}
+          >
+            <Picture
+              src={image.src}
+              alt={""}
+              formats={['avif', 'webp']}
+              width={80}
+              height={80}
+              quality={30}
+              loading="eager"
+            />
+          </button>
+        ))}
+      </div>
+    )}
+  </dialog>
+</section>
+)}
+
+<script>
+// Configuration constants
+const SWIPE_THRESHOLD = 50; // Minimum pixels for horizontal swipe gesture
+const SWIPE_VERTICAL_TOLERANCE = 30; // Maximum vertical movement to still count as horizontal swipe
+const RESIZE_DEBOUNCE_DELAY = 300; // Milliseconds to wait before applying centering
+const DEFAULT_CLOSE_DURATION = 200; // Fallback close duration in milliseconds
+const IMAGE_LOAD_TIMEOUT = 10000; // Maximum time to wait for image dimensions (10 seconds)
+
+class PandaboxInstance {
+  private galleryContainer: HTMLElement;
+  private thumbnailButtons: NodeListOf<HTMLButtonElement>;
+  private lightboxDialog: HTMLDialogElement | null;
+  private lightboxImageContainers: NodeListOf<HTMLElement>; // Cache DOM query for image containers
+  private lightboxThumbnails: NodeListOf<HTMLButtonElement> | null; // Internal modal thumbnails
+  private announcer: HTMLElement | null; // ARIA live region for screen reader announcements
+  private prevButton: HTMLButtonElement | null;
+  private nextButton: HTMLButtonElement | null;
+  private closeButton: HTMLButtonElement | null;
+  private closeDuration: number;
+  private currentIndex = 0;
+  private resizeTimeout?: number;
+  private lastWrapperSize = { width: 0, height: 0 };
+  private onAnimationComplete?: () => void;
+  private onOpen?: () => void;
+  private onClose?: () => void;
+  private onNavigate?: (index: number) => void;
+  private isClosing = false; // Track if close animation is in progress
+  private triggeringThumbnail: HTMLButtonElement | null = null; // Track thumbnail that opened lightbox for focus return
+
+  // Store bound event handlers for cleanup
+  private boundHandleKeydown: (e: KeyboardEvent) => void;
+  private boundHandleSwipe: (e: TouchEvent) => void;
+  private boundHandleResize: () => void;
+
+  constructor(
+    galleryContainer: HTMLElement,
+    options?: {
+      onAnimationComplete?: () => void;
+      onOpen?: () => void;
+      onClose?: () => void;
+      onNavigate?: (index: number) => void;
+    },
+  ) {
+    this.onAnimationComplete = options?.onAnimationComplete;
+    this.onOpen = options?.onOpen;
+    this.onClose = options?.onClose;
+    this.onNavigate = options?.onNavigate;
+    this.galleryContainer = galleryContainer;
+
+    // Scope all selectors to this gallery container
+    this.thumbnailButtons =
+      galleryContainer.querySelectorAll<HTMLButtonElement>(':scope > button');
+    this.lightboxDialog =
+      galleryContainer.querySelector<HTMLDialogElement>('.lightbox-dialog');
+    this.lightboxImageContainers =
+      galleryContainer.querySelectorAll<HTMLElement>(
+        '.lightbox-image-container',
+      );
+    this.lightboxThumbnails =
+      galleryContainer.querySelectorAll<HTMLButtonElement>(
+        '.lightbox-thumbnail',
+      );
+    this.announcer = galleryContainer.querySelector<HTMLElement>(
+      '.sr-only[role="status"]',
+    );
+    this.prevButton =
+      galleryContainer.querySelector<HTMLButtonElement>('.prev-button');
+    this.nextButton =
+      galleryContainer.querySelector<HTMLButtonElement>('.next-button');
+    this.closeButton =
+      galleryContainer.querySelector<HTMLButtonElement>('.close-button');
+
+    // Set closeDuration from CSS custom property with fallback
+    this.closeDuration = this.lightboxDialog
+      ? parseFloat(
+          getComputedStyle(this.lightboxDialog).getPropertyValue(
+            '--duration-close-transition',
+          ),
+        ) * 1000
+      : DEFAULT_CLOSE_DURATION;
+
+    // Bind event handlers to this instance for proper cleanup
+    this.boundHandleKeydown = (e: KeyboardEvent) => this.handleKeydown(e);
+    this.boundHandleSwipe = (e: TouchEvent) => this.handleSwipe(e);
+    this.boundHandleResize = () => {
+      if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = window.setTimeout(
+        () => this.updateZoomPropertiesOnResize(),
+        RESIZE_DEBOUNCE_DELAY,
+      );
+    };
+
+    this.init();
+  }
+
+  private init(): void {
+    // Early exit if required elements are missing
+    if (!this.lightboxDialog) {
+      this.logError('Lightbox dialog not found. Skipping initialization.', {
+        galleryId: this.galleryContainer.id,
+        selector: '.lightbox-dialog',
+      });
+      return;
+    }
+
+    this.attachEventListeners();
+  }
+
+  private attachEventListeners(): void {
+    // Attach event listeners scoped to this instance
+    for (const button of this.thumbnailButtons) {
+      button.addEventListener('click', () => this.openLightbox(button));
+      // V1 Approach: Hover preload disabled - calculations happen after modal opens
+      // Preload is incompatible with reading actual wrapper dimensions from DOM
+      // button.addEventListener('mouseenter', () =>
+      // );
+    }
+    this.prevButton?.addEventListener('click', () => this.showPreviousImage());
+    this.nextButton?.addEventListener('click', () => this.showNextImage());
+    this.closeButton?.addEventListener('click', () => this.closeDialog());
+
+    // Attach event listeners to lightbox thumbnails (if enabled)
+    if (this.lightboxThumbnails) {
+      for (const thumbnail of this.lightboxThumbnails) {
+        thumbnail.addEventListener('click', () => {
+          const index = parseInt(
+            thumbnail.getAttribute('data-thumbnail-index') || '0',
+            10,
+          );
+          this.showImageAtIndex(index);
+        });
+      }
+    }
+
+    // Clean up classes on dialog close event
+    this.lightboxDialog?.addEventListener('close', () => {
+      // Restore scrollbar gutter reserved in openLightbox
+      document.documentElement.style.paddingInlineEnd = '';
+
+      // Detach global listeners when dialog closes
+      this.detachGlobalListeners();
+
+      // Clean up active classes and aria-hidden from lightbox images
+      for (const container of this.lightboxImageContainers) {
+        container.classList.remove('active', 'previous', 'next');
+        container.setAttribute('aria-hidden', 'true');
+      }
+
+      // Clean up active classes from thumbnails
+      for (const button of this.thumbnailButtons) {
+        button.classList.remove('active');
+      }
+    });
+  }
+
+  /**
+   * Attach global event listeners only when dialog is open
+   * This improves performance by not listening to events when dialog is closed
+   */
+  private attachGlobalListeners(): void {
+    if (!this.lightboxDialog) return;
+
+    document.addEventListener('keydown', this.boundHandleKeydown);
+    // Attach touchstart to dialog (not document) to scope gesture handling
+    // Use passive: true to improve scroll performance
+    this.lightboxDialog.addEventListener('touchstart', this.boundHandleSwipe, {
+      passive: true,
+    });
+    window.addEventListener('resize', this.boundHandleResize);
+  }
+
+  /**
+   * Detach global event listeners when dialog closes
+   * This prevents memory leaks and improves performance
+   */
+  private detachGlobalListeners(): void {
+    if (!this.lightboxDialog) return;
+
+    document.removeEventListener('keydown', this.boundHandleKeydown);
+    // Remove touchstart from dialog (matches attachment scope)
+    this.lightboxDialog.removeEventListener(
+      'touchstart',
+      this.boundHandleSwipe,
+    );
+    window.removeEventListener('resize', this.boundHandleResize);
+  }
+
+  public destroy(): void {
+    // Remove global event listeners (if they're attached)
+    this.detachGlobalListeners();
+
+    // Clear any pending timeouts
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+
+    // Close dialog if open
+    if (this.lightboxDialog?.open) {
+      this.lightboxDialog.close();
+    }
+  }
+
+
+  /**
+   * Log error with gallery context for easier debugging
+   * @param message - Error message describing what went wrong
+   * @param context - Optional additional context (e.g., index, element info)
+   */
+  private logError(message: string, context?: Record<string, unknown>): void {
+    const galleryId = this.galleryContainer.id || 'unknown';
+    const errorPrefix = `[Pandabox: ${galleryId}]`;
+
+    if (context) {
+      console.error(errorPrefix, message, context);
+    } else {
+      console.error(errorPrefix, message);
+    }
+  }
+
+  /**
+   * Safely get image dimensions using naturalWidth/naturalHeight
+   * Returns null if image hasn't loaded yet or times out
+   * Includes timeout to prevent hanging on slow/failed image loads
+   */
+  private async getImageDimensions(
+    image: HTMLImageElement,
+  ): Promise<{ width: number; height: number } | null> {
+    // If image is already loaded (complete = true), use natural dimensions
+    if (image.complete && image.naturalWidth > 0 && image.naturalHeight > 0) {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      };
+    }
+
+    // Image not loaded yet - wait for load event with timeout
+    return new Promise((resolve) => {
+      // Set timeout to prevent hanging on slow/failed loads
+      const timeoutId = setTimeout(() => {
+        image.removeEventListener('load', handleLoad);
+        image.removeEventListener('error', handleError);
+        this.logError('Image load timeout - using fallback positioning', {
+          src: image.src,
+          timeout: IMAGE_LOAD_TIMEOUT,
+        });
+        resolve(null); // Fallback to fade-only animation
+      }, IMAGE_LOAD_TIMEOUT);
+
+      const handleLoad = () => {
+        clearTimeout(timeoutId);
+        if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+          resolve({
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+          });
+        } else {
+          this.logError('Image loaded but natural dimensions are invalid', {
+            src: image.src,
+            naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight,
+          });
+          resolve(null);
+        }
+      };
+
+      const handleError = () => {
+        clearTimeout(timeoutId);
+        this.logError('Image failed to load', {
+          src: image.src,
+          complete: image.complete,
+        });
+        resolve(null);
+      };
+
+      image.addEventListener('load', handleLoad, { once: true });
+      image.addEventListener('error', handleError, { once: true });
+    });
+  }
+
+  private updateActiveThumbnail(index: number): void {
+    // Remove active class from all external gallery thumbnails
+    for (const button of this.thumbnailButtons) {
+      button.classList.remove('active');
+    }
+
+    // Add active class to current external thumbnail (if it exists)
+    const currentThumbnail = this.thumbnailButtons[index];
+    if (currentThumbnail) {
+      currentThumbnail.classList.add('active');
+    }
+
+    // Update lightbox thumbnails (if enabled)
+    if (this.lightboxThumbnails && this.lightboxThumbnails.length > 0) {
+      // Update aria-selected and roving tabindex for all lightbox thumbnails
+      for (let i = 0; i < this.lightboxThumbnails.length; i++) {
+        const thumbnail = this.lightboxThumbnails[i];
+        const isActive = i === index;
+        thumbnail.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        thumbnail.setAttribute('tabindex', isActive ? '0' : '-1');
+      }
+
+      // Scroll active thumbnail into view
+      this.scrollThumbnailIntoView(index);
+    }
+  }
+
+  /**
+   * Announce navigation to screen readers
+   * Uses ARIA live region to inform users of image changes
+   * @param index - The index of the current image
+   */
+  private announceNavigation(index: number): void {
+    if (!this.announcer) return;
+
+    const totalImages = this.lightboxImageContainers.length;
+    const imageContainer = this.lightboxImageContainers[index];
+
+    if (!imageContainer) return;
+
+    // Get image title/alt from the figure caption or image alt text
+    const caption = imageContainer.querySelector('figcaption p');
+    const image =
+      imageContainer.querySelector<HTMLImageElement>('.lightbox-image');
+    const imageDescription =
+      caption?.textContent?.trim() || image?.alt || `Image ${index + 1}`;
+
+    // Create announcement text
+    const announcement = `Showing ${imageDescription}, image ${index + 1} of ${totalImages}`;
+
+    // Update the announcer content
+    // Clear first to ensure announcement fires even if content is the same
+    this.announcer.textContent = '';
+
+    // Use setTimeout to ensure the clear registers before the new content
+    setTimeout(() => {
+      if (this.announcer) {
+        this.announcer.textContent = announcement;
+      }
+    }, 100);
+  }
+
+  /**
+   * Calculate initial scale for zoom animation
+   * Compares thumbnail and wrapper aspect ratios to determine appropriate scale factor
+   * @param thumbnailRect - Bounding rectangle of the thumbnail image
+   * @param wrapperRect - Bounding rectangle of the lightbox wrapper
+   * @returns Scale factor for initial zoom state
+   */
+  private calculateInitialScale(
+    thumbnailRect: DOMRect,
+    wrapperRect: DOMRect,
+  ): number {
+    const thumbnailAspectRatio = thumbnailRect.width / thumbnailRect.height;
+    const wrapperAspectRatio = wrapperRect.width / wrapperRect.height;
+
+    return thumbnailAspectRatio > wrapperAspectRatio
+      ? thumbnailRect.width / wrapperRect.width
+      : thumbnailRect.height / wrapperRect.height;
+  }
+
+  private applyInitialZoomProperties(
+    image: HTMLImageElement,
+    thumbnailRect: DOMRect,
+    wrapperRect: DOMRect,
+  ): number {
+    const initialScale = this.calculateInitialScale(thumbnailRect, wrapperRect);
+    image.style.setProperty(
+      '--initial-x',
+      `${thumbnailRect.left - wrapperRect.left}px`,
+    );
+    image.style.setProperty(
+      '--initial-y',
+      `${thumbnailRect.top - wrapperRect.top}px`,
+    );
+    image.style.setProperty('--initial-scale', `${initialScale}`);
+    return initialScale;
+  }
+
+  private async calculateFinalPosition(image: HTMLImageElement): Promise<void> {
+    // V1 Approach: Read actual wrapper dimensions from DOM and calculate centering
+    // This must be called AFTER modal is open and wrapper has been rendered
+    // Reference: PandaboxV1.astro lines 500-546
+
+    const wrapper = image.closest('.lightbox-image-wrapper') as HTMLElement;
+
+    if (!wrapper) {
+      this.logError('Image wrapper not found in calculateFinalPosition', {
+        imageIndex: this.currentIndex,
+        imageSrc: image.src,
+      });
+      return;
+    }
+
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const wrapperWidth = wrapperRect.width;
+    const wrapperHeight = wrapperRect.height;
+
+    if (!wrapperWidth || !wrapperHeight) {
+      this.logError('Wrapper has zero dimensions in calculateFinalPosition', {
+        imageIndex: this.currentIndex,
+        wrapperWidth,
+        wrapperHeight,
+      });
+      return;
+    }
+
+    // Use natural dimensions instead of attributes
+    const dimensions = await this.getImageDimensions(image);
+    if (!dimensions) {
+      this.logError(
+        'Could not get image dimensions in calculateFinalPosition',
+        {
+          imageIndex: this.currentIndex,
+          imageSrc: image.src,
+          imageComplete: image.complete,
+        },
+      );
+      return;
+    }
+
+    const imageWidth = dimensions.width;
+    const imageHeight = dimensions.height;
+
+    // Guard against division by zero
+    if (imageHeight === 0 || wrapperHeight === 0) {
+      this.logError('Cannot calculate aspect ratio: zero dimension', {
+        imageIndex: this.currentIndex,
+        imageWidth,
+        imageHeight,
+        wrapperWidth,
+        wrapperHeight,
+      });
+      return;
+    }
+
+    const imageAspectRatio = imageWidth / imageHeight;
+    const wrapperAspectRatio = wrapperWidth / wrapperHeight;
+
+    // Calculate centering offset within wrapper
+    // finalX and finalY are offsets from wrapper's top-left corner
+    let finalX = 0;
+    let finalY = 0;
+
+    if (wrapperAspectRatio > imageAspectRatio) {
+      // Wrapper wider than image - center horizontally
+      const targetHeight = wrapperHeight;
+      const targetWidth = targetHeight * imageAspectRatio;
+      finalX = (wrapperWidth - targetWidth) / 2;
+    } else {
+      // Wrapper taller than image - center vertically
+      const targetWidth = wrapperWidth;
+      const targetHeight = targetWidth / imageAspectRatio;
+      finalY = (wrapperHeight - targetHeight) / 2;
+    }
+
+    finalX = Math.max(0, finalX);
+    finalY = Math.max(0, finalY);
+
+    // Set CSS custom properties
+    image.style.setProperty('--final-x', `${finalX}px`);
+    image.style.setProperty('--final-y', `${finalY}px`);
+    image.style.setProperty('--final-scale', `1`);
+  }
+
+  private updateNavigationAriaLabels(index: number): void {
+    const totalImages = this.lightboxImageContainers.length;
+    this.prevButton?.setAttribute(
+      'aria-label',
+      `Previous image (${index + 1} of ${totalImages})`,
+    );
+    this.nextButton?.setAttribute(
+      'aria-label',
+      `Next image (${index + 1} of ${totalImages})`,
+    );
+  }
+
+  // Returns false if an error prevented zoom setup — caller should abort.
+  private updateInitialZoomForNavigation(
+    image: HTMLImageElement,
+    index: number,
+    container: HTMLElement,
+  ): boolean {
+    const currentThumbnail = this.thumbnailButtons[index];
+    if (!currentThumbnail) {
+      image.classList.add('fade-only');
+      return true;
+    }
+
+    const thumbnailImg = currentThumbnail.querySelector('img');
+    if (!thumbnailImg) {
+      this.logError('Thumbnail img not found during navigation', {
+        imageIndex: index,
+        thumbnailIndex: currentThumbnail.dataset.index,
+      });
+      return false;
+    }
+
+    const thumbnailRect = currentThumbnail.getBoundingClientRect();
+    const wrapper = container.querySelector(
+      '.lightbox-image-wrapper',
+    ) as HTMLElement | null;
+    if (!wrapper) {
+      this.logError('Wrapper not found during navigation', {
+        imageIndex: index,
+        imageContainerId: container.id,
+      });
+      return false;
+    }
+
+    const wrapperRect = wrapper.getBoundingClientRect();
+    if (wrapperRect.width === 0 || wrapperRect.height === 0) {
+      this.logError('Wrapper has zero dimensions during navigation', {
+        imageIndex: index,
+        wrapperWidth: wrapperRect.width,
+        wrapperHeight: wrapperRect.height,
+      });
+      return false;
+    }
+
+    const initialScale = this.applyInitialZoomProperties(
+      image,
+      thumbnailRect,
+      wrapperRect,
+    );
+
+    return true;
+  }
+
+  private updateAdjacentImages(): void {
+    const total = this.lightboxImageContainers.length;
+    const prevIndex = (this.currentIndex - 1 + total) % total;
+    const nextIndex = (this.currentIndex + 1) % total;
+
+    const prevImage = this.galleryContainer.querySelector(
+      `#image-${prevIndex}`,
+    ) as HTMLElement;
+    const nextImage = this.galleryContainer.querySelector(
+      `#image-${nextIndex}`,
+    ) as HTMLElement;
+
+    prevImage?.classList.add('previous');
+    nextImage?.classList.add('next');
+
+    const prevImg = prevImage?.querySelector('img');
+    const nextImg = nextImage?.querySelector('img');
+    if (prevImg) prevImg.loading = 'eager';
+    if (nextImg) nextImg.loading = 'eager';
+  }
+
+  private async showImageAtIndex(
+    index: number,
+    skipZoomCalculation = false,
+  ): Promise<void> {
+    if (!this.lightboxDialog) return;
+    if (index < 0 || index >= this.lightboxImageContainers.length) return;
+
+    for (const container of this.lightboxImageContainers) {
+      container.classList.remove('active', 'previous', 'next');
+      container.setAttribute('aria-hidden', 'true');
+    }
+
+    const newActiveImage = this.galleryContainer.querySelector(
+      `#image-${index}`,
+    ) as HTMLElement | null;
+    if (!newActiveImage) {
+      this.logError('Image container not found in showImageAtIndex', {
+        requestedIndex: index,
+        expectedId: `image-${index}`,
+        totalImages: this.lightboxImageContainers.length,
+      });
+      return;
+    }
+
+    newActiveImage.classList.add('active');
+    newActiveImage.setAttribute('aria-hidden', 'false');
+
+    const isNavigation = this.currentIndex !== index;
+    this.currentIndex = index;
+
+    Array.from(this.thumbnailButtons).forEach((button) => {
+      button.classList.remove(
+        'fading-out',
+        'thumbnail-fade-out-opening',
+        'thumbnail-fade-in-closing',
+      );
+    });
+
+    this.updateActiveThumbnail(index);
+    this.announceNavigation(index);
+
+    if (isNavigation) {
+      this.onNavigate?.(index);
+    }
+
+    this.updateNavigationAriaLabels(index);
+
+    const image =
+      newActiveImage.querySelector<HTMLImageElement>('.lightbox-image');
+    if (image) {
+      image.classList.remove('fade-only');
+
+      if (!skipZoomCalculation) {
+        const ok = this.updateInitialZoomForNavigation(
+          image,
+          index,
+          newActiveImage,
+        );
+        if (!ok) return;
+      }
+
+      await this.calculateFinalPosition(image);
+
+      image.addEventListener(
+        'animationend',
+        () => {
+          // Remove .zoom-in so the base transform rule responds dynamically to
+          // CSS custom property updates (e.g. on resize). animation-fill-mode:
+          // forwards would otherwise freeze the keyframe values and ignore
+          // subsequent --final-x/--final-y changes.
+          image.classList.remove('zoom-in');
+          image.style.willChange = 'auto';
+          this.onAnimationComplete?.();
+        },
+        { once: true },
+      );
+    }
+
+    this.updateAdjacentImages();
+  }
+
+  // Called inside requestAnimationFrame after showModal() so wrapper dimensions
+  // are available from the rendered layout.
+  private async setupZoomAfterOpen(
+    activeImage: HTMLElement,
+    lightboxImage: HTMLImageElement,
+    thumbnailRect: DOMRect,
+    index: number,
+  ): Promise<void> {
+    const lightboxWrapper = activeImage.querySelector<HTMLDivElement>(
+      '.lightbox-image-wrapper',
+    );
+    if (!lightboxWrapper) {
+      this.logError('Lightbox wrapper not found in openLightbox', {
+        imageIndex: index,
+        imageContainerId: activeImage.id,
+      });
+      return;
+    }
+
+    const wrapperRect = lightboxWrapper.getBoundingClientRect();
+    if (wrapperRect.width === 0 || wrapperRect.height === 0) {
+      this.logError('Lightbox wrapper has zero dimensions in openLightbox', {
+        imageIndex: index,
+        wrapperWidth: wrapperRect.width,
+        wrapperHeight: wrapperRect.height,
+      });
+      return;
+    }
+
+    const initialScale = this.applyInitialZoomProperties(
+      lightboxImage,
+      thumbnailRect,
+      wrapperRect,
+    );
+
+    if (this.lightboxDialog?.getAttribute('data-option') !== 'slide') {
+      await this.calculateFinalPosition(lightboxImage);
+    }
+
+    lightboxImage.classList.add('zoom-in');
+
+    if (this.triggeringThumbnail) {
+      this.triggeringThumbnail.classList.add('thumbnail-fade-out-opening');
+    }
+
+
+    const backdropTransitionHandler = () => {
+      this.lightboxDialog?.removeEventListener(
+        'transitionend',
+        backdropTransitionHandler,
+      );
+    };
+    if (this.lightboxDialog) {
+      this.lightboxDialog.addEventListener(
+        'transitionend',
+        backdropTransitionHandler,
+      );
+    }
+
+    requestAnimationFrame(() => {
+      const activeContainer = this.galleryContainer.querySelector<HTMLElement>(
+        '.lightbox-image-container.active',
+      );
+      if (activeContainer) {
+        activeContainer.setAttribute('tabindex', '-1');
+        activeContainer.focus();
+      }
+    });
+  }
+
+  // fallow-ignore-next-line complexity — cyclomatic inflated by if(DEBUG) blocks stripped in production build
+  private openLightbox(button: HTMLButtonElement): void {
+    if (!this.lightboxDialog) return;
+
+    if (this.isClosing) {
+      return;
+    }
+
+    if (this.lightboxDialog.open) {
+      const index = Number.parseInt(button.dataset.index || '0', 10);
+      if (index !== this.currentIndex) {
+        this.showImageAtIndex(index);
+      }
+      return;
+    }
+
+    this.triggeringThumbnail = button;
+    this.lightboxDialog.style.transform = '';
+
+    // Measure the thumbnail IMAGE, not the button — button sizing varies by
+    // viewport layout but the visual image is what the zoom animates from.
+    const thumbnailImg = button.querySelector('img');
+    if (!thumbnailImg) {
+      this.logError(
+        'Thumbnail img not found inside button during openLightbox',
+        { buttonIndex: button.dataset.index },
+      );
+      return;
+    }
+    const rect = thumbnailImg.getBoundingClientRect();
+    const index = Number.parseInt(button.dataset.index || '0', 10);
+
+    this.currentIndex = index;
+
+    const activeImage = this.galleryContainer.querySelector(
+      `#image-${index}`,
+    ) as HTMLElement | null;
+    if (!activeImage) return;
+
+    const lightboxImage =
+      activeImage.querySelector<HTMLImageElement>('.lightbox-image');
+    if (!lightboxImage) {
+      this.logError('Lightbox image not found in openLightbox', {
+        imageIndex: index,
+        imageContainerId: activeImage.id,
+      });
+      return;
+    }
+
+
+    activeImage.classList.add('active');
+    // Reserve scrollbar width before showModal() hides the scrollbar via
+    // overflow:hidden, preventing a layout shift in page content below the gallery.
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.documentElement.style.paddingInlineEnd = `${scrollbarWidth}px`;
+    }
+    this.lightboxDialog.showModal();
+    this.onOpen?.();
+    this.updateActiveThumbnail(index);
+    this.currentIndex = index;
+    this.attachGlobalListeners();
+
+    requestAnimationFrame(() => {
+      void this.setupZoomAfterOpen(activeImage, lightboxImage, rect, index);
+    });
+
+    this.showImageAtIndex(this.currentIndex, true);
+  }
+
+  private showPreviousImage(): void {
+    const totalImages = this.lightboxImageContainers.length;
+    const prevIndex = (this.currentIndex - 1 + totalImages) % totalImages;
+    this.showImageAtIndex(prevIndex);
+  }
+
+  private showNextImage(): void {
+    const totalImages = this.lightboxImageContainers.length;
+    const nextIndex = (this.currentIndex + 1) % totalImages;
+    this.showImageAtIndex(nextIndex);
+  }
+
+  /**
+   * Scroll the active thumbnail into view in the thumbnail strip
+   * Uses smooth scrolling with scroll-snap alignment
+   */
+  private scrollThumbnailIntoView(index: number): void {
+    if (!this.lightboxThumbnails || this.lightboxThumbnails.length === 0) {
+      return;
+    }
+
+    const thumbnail = this.lightboxThumbnails[index];
+    if (thumbnail) {
+      // Defer to next frame to ensure container is laid out after modal open
+      requestAnimationFrame(() => {
+        thumbnail.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center',
+        });
+      });
+    }
+  }
+
+  private focusThumbnailIfActive(index: number): void {
+    (this.lightboxThumbnails?.[index] as HTMLElement | undefined)?.focus();
+  }
+
+  private handleKeydown(event: KeyboardEvent): void {
+    if (!this.lightboxDialog?.open) return;
+
+    const isThumbnailFocused = !!document.activeElement?.closest(
+      '.lightbox-thumbnail',
+    );
+    const lastIndex = this.lightboxImageContainers.length - 1;
+
+    switch (event.key) {
+      case 'ArrowLeft':
+        this.showPreviousImage();
+        break;
+      case 'ArrowRight':
+        this.showNextImage();
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.showImageAtIndex(0);
+        break;
+      case 'End':
+        event.preventDefault();
+        this.showImageAtIndex(lastIndex);
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.closeDialog();
+        return;
+      default:
+        return;
+    }
+
+    if (isThumbnailFocused) this.focusThumbnailIfActive(this.currentIndex);
+  }
+
+  private async updateZoomPropertiesOnResize(): Promise<void> {
+    if (!this.lightboxDialog?.open) return;
+
+    const activeContainer = this.galleryContainer.querySelector<HTMLElement>(
+      '.lightbox-image-container.active',
+    );
+    if (!activeContainer) return;
+
+    const wrapper = activeContainer.querySelector('.lightbox-image-wrapper');
+    const rect = wrapper?.getBoundingClientRect();
+
+    // Only recalculate if wrapper size actually changed
+    if (
+      !rect ||
+      (rect.width === this.lastWrapperSize.width &&
+        rect.height === this.lastWrapperSize.height)
+    )
+      return;
+
+    this.lastWrapperSize = { width: rect.width, height: rect.height };
+
+    const img =
+      activeContainer.querySelector<HTMLImageElement>('.lightbox-image');
+    if (!img) return;
+
+    await this.calculateFinalPosition(img);
+
+    const currentThumbnail = this.thumbnailButtons[this.currentIndex];
+    if (!currentThumbnail || !wrapper) return;
+
+    const thumbnailRect = currentThumbnail.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+
+    if (wrapperRect.width > 0 && wrapperRect.height > 0) {
+      this.applyInitialZoomProperties(img, thumbnailRect, wrapperRect);
+    }
+  }
+
+  private handleSwipe(event: TouchEvent): void {
+    if (!this.lightboxDialog?.open || !event.touches[0]) return;
+
+    const touchStartX = event.touches[0].clientX;
+    const touchStartY = event.touches[0].clientY;
+
+    const handleTouchEnd = (touchEndEvent: TouchEvent): void => {
+      if (!touchEndEvent.changedTouches[0]) return; // Guard clause
+
+      const touchEndX = touchEndEvent.changedTouches[0].clientX;
+      const touchEndY = touchEndEvent.changedTouches[0].clientY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      // Only process horizontal swipes (ignore primarily vertical swipes)
+      // This prevents interfering with vertical scrolling
+      if (Math.abs(deltaY) > SWIPE_VERTICAL_TOLERANCE) {
+        return;
+      }
+
+      // Process horizontal swipe if it exceeds threshold
+      if (deltaX > SWIPE_THRESHOLD) {
+        this.showPreviousImage();
+      } else if (deltaX < -SWIPE_THRESHOLD) {
+        this.showNextImage();
+      }
+    };
+
+    // Attach touchend and touchcancel with { once: true } to prevent listener leaks
+    // This ensures cleanup even if gesture is interrupted or dialog closes
+    this.lightboxDialog.addEventListener('touchend', handleTouchEnd, {
+      once: true,
+    });
+    this.lightboxDialog.addEventListener('touchcancel', handleTouchEnd, {
+      once: true,
+    });
+  }
+
+  // Thumbnail may have moved since open (scrolling, page changes) — refresh
+  // initial properties so zoom-out animates back to the current position.
+  private refreshInitialZoomBeforeClose(
+    activeImage: HTMLImageElement | null | undefined,
+    activeContainer: HTMLElement | null | undefined,
+  ): void {
+    const activeButton = this.thumbnailButtons[this.currentIndex];
+    if (!activeButton || !activeImage || !activeContainer) return;
+    const thumbnailImg = activeButton.querySelector('img');
+    if (!thumbnailImg) return;
+    const thumbnailRect = thumbnailImg.getBoundingClientRect();
+    const wrapper = activeContainer.querySelector(
+      '.lightbox-image-wrapper',
+    ) as HTMLElement | null;
+    if (!wrapper) return;
+    const wrapperRect = wrapper.getBoundingClientRect();
+    if (wrapperRect.width > 0 && wrapperRect.height > 0) {
+      this.applyInitialZoomProperties(activeImage, thumbnailRect, wrapperRect);
+    }
+  }
+
+  private finishClose(): void {
+    if (!this.lightboxDialog) return;
+
+    this.lightboxDialog.close();
+    this.lightboxDialog.classList.remove('closing');
+
+    const allImages =
+      this.galleryContainer.querySelectorAll<HTMLImageElement>(
+        '.lightbox-image',
+      );
+    allImages.forEach((img) => {
+      img.classList.remove('zoom-in', 'zoom-out');
+    });
+
+    // Set transform to 'none' to prevent off-screen default state.
+    // Without this, the dialog reverts to transform: translateX(100%) on next
+    // open, which causes incorrect wrapper measurements before showModal fires.
+    this.lightboxDialog.style.transform = 'none';
+
+    this.isClosing = false;
+
+    Array.from(this.thumbnailButtons).forEach((button) => {
+      button.classList.remove(
+        'fading-out',
+        'thumbnail-fade-out-opening',
+        'thumbnail-fade-in-closing',
+      );
+    });
+
+    if (this.triggeringThumbnail) {
+      this.triggeringThumbnail.focus();
+      this.triggeringThumbnail = null;
+    }
+
+    for (const container of this.lightboxImageContainers) {
+      container.classList.remove('active', 'previous', 'next');
+      const img = container.querySelector<HTMLImageElement>('.lightbox-image');
+      if (img) {
+        img.style.animation = '';
+      }
+    }
+
+    this.onClose?.();
+  }
+
+  private closeDialog(): void {
+    if (!this.lightboxDialog) return;
+
+    const closeDuration = getComputedStyle(
+      this.lightboxDialog,
+    ).getPropertyValue('--duration-close-transition');
+
+    const activeContainer = this.galleryContainer.querySelector<HTMLElement>(
+      '.lightbox-image-container.active',
+    );
+    const activeImage =
+      activeContainer?.querySelector<HTMLImageElement>('.lightbox-image');
+    const activeButton = this.thumbnailButtons[this.currentIndex];
+
+    this.refreshInitialZoomBeforeClose(activeImage, activeContainer);
+
+    if (activeButton) {
+      activeButton.classList.remove('thumbnail-fade-out-opening');
+      activeButton.classList.add('thumbnail-fade-in-closing');
+    }
+
+    if (activeImage && !activeImage.classList.contains('fade-only')) {
+      activeImage.style.animation = `zoom-out-animation ${closeDuration} ease-out forwards`;
+    }
+
+    this.isClosing = true;
+    this.lightboxDialog.classList.add('closing');
+
+    if (activeImage) {
+      activeImage.classList.add('zoom-out');
+    }
+
+    setTimeout(() => this.finishClose(), this.closeDuration);
+  }
+}
+
+// Track all active instances for cleanup
+let activeInstances: PandaboxInstance[] = [];
+
+/**
+ * Initialize all Pandabox gallery instances on the page
+ * Uses data-attribute flag to prevent double initialization
+ * Works with both ClientRouter and vanilla pages
+ */
+function initializePandabox(): void {
+  // Find all gallery containers on the page
+  const galleryContainers = document.querySelectorAll<HTMLElement>(
+    '.thumbnail-container',
+  );
+
+  for (const container of galleryContainers) {
+    // Skip if this container already has an instance
+    if (container.dataset.pandaboxInitialized === 'true') {
+      continue;
+    }
+
+    // Mark as initialized to prevent duplicate instances
+    container.dataset.pandaboxInitialized = 'true';
+
+    // Create instance
+    const instance = new PandaboxInstance(container);
+    activeInstances.push(instance);
+  }
+}
+
+/**
+ * Clean up all active instances
+ * Called before page navigation (ClientRouter) or when instances need to be destroyed
+ */
+function cleanupPandabox(): void {
+
+  // Destroy all active instances
+  for (const instance of activeInstances) {
+    instance.destroy();
+  }
+  // Clear the array
+  activeInstances = [];
+
+  // Remove initialization flags so galleries can re-initialize on new page
+  const containers = document.querySelectorAll<HTMLElement>(
+    '[data-pandabox-initialized]',
+  );
+  for (const container of containers) {
+    delete container.dataset.pandaboxInitialized;
+  }
+}
+
+// Support both ClientRouter pages and vanilla Astro pages
+// This ensures the component works regardless of whether ClientRouter is enabled
+
+// For pages WITH ClientRouter (astro:page-load fires on navigation)
+document.addEventListener('astro:page-load', initializePandabox);
+document.addEventListener('astro:before-swap', cleanupPandabox);
+
+// For pages WITHOUT ClientRouter (vanilla pages use DOMContentLoaded)
+// Check document.readyState to handle both scenarios:
+// - Script loads before DOM ready: attach listener
+// - Script loads after DOM ready: initialize immediately
+if (document.readyState === 'loading') {
+  // DOM is still loading, attach event listener
+  document.addEventListener('DOMContentLoaded', initializePandabox);
+} else {
+  // DOM already loaded (e.g., script loaded dynamically or after parse)
+  // Initialize immediately
+  initializePandabox();
+}
+
+// Export for testing
+export { cleanupPandabox, initializePandabox, PandaboxInstance };
+</script>
+
+<style>
+/* No CSS layers needed - using simple class-based logic instead */
+
+/* Error States */
+.pandabox-error {
+  padding: 2rem;
+  text-align: center;
+}
+
+.error-message {
+  color: oklch(50% 0.15 30);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Accessibility - Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Lightbox Configuration */
+:root {
+  --lightbox-transition-base: ease-in allow-discrete;
+}
+.lightbox-dialog {
+  /* Adjust these custom properties if you like */
+  --duration-zoom-in: 1s; /* Duration of the zoom effect */
+  --duration-background-transition: 0.2s; /* Duration of lightbox background transition*/
+  --delay-background-transition: 0.2s; /* Delay before UI elements fade in */
+  --duration-slide-transition: 0.3s; /* Duration of slide transition*/
+  --duration-close-transition: 0.5s; /* close*/
+  --caption-height: 7lh; /* size of slide caption area, using line height units */
+  --ease-zoom: cubic-bezier(
+    0.5,
+    -0.5,
+    0.1,
+    1.5
+  ); /* change as required, or try open-prop's easings */
+  --ease-slide-transition: cubic-bezier(0.9, 0, 0.1, 1);
+  --dialog-gutter: 5ch; /* Gutter around the lightbox content area */
+  --thumbnail-strip-height: 6rem; /* Height of the thumbnail strip in the modal */
+  --backdrop-color: oklch(
+    100% 0.00011 271.152 / 0.95
+  ); /* Modal backdrop color */
+  --caption-color: oklch(31.445% 0.00719 17.269); /* Caption text color */
+  --nav-icon-color: oklch(60% 0.01 150 / 50%); /* Navigation icon color */
+  --nav-icon-color-hover: oklch(
+    32.504% 0.00004 271.152 / 0.95
+  ); /* Navigation icon hover color */
+
+  /* Performance optimizations */
+  contain: layout style paint;
+}
+
+@media (prefers-reduced-motion) {
+  /* Set transition speed and delays to 0 */
+  .lightbox-dialog {
+    --duration-zoom-in: 0s;
+    --duration-slide-transition: 0s;
+    --duration-background-transition: 0s;
+    --delay-background-transition: 0s;
+    --duration-close-transition: 0s;
+  }
+}
+
+.thumbnail-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Prevent interaction with page when modal is open. */
+html {
+  /* Reserve space for scrollbar to prevent layout shift when dialog opens */
+  scrollbar-gutter: stable;
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+/* Thumbnails and container, change as required */
+.thumbnail-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  content-visibility: auto;
+  max-width: 90vw;
+  overflow: clip;
+}
+.thumbnail-container button {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  cursor: -webkit-zoom-in; /* Safari */
+  cursor: zoom-in;
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0;
+}
+.thumbnail-container button:focus {
+  outline: none;
+}
+.thumbnail-container button:active {
+  transform: scale(0.95);
+  opacity: 0.7;
+}
+.thumbnail-container button.fading-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+
+/* Synchronized thumbnail animations with spring easing */
+.thumbnail-container button.thumbnail-fade-out-opening {
+  animation: thumbnail-fade-out-opening var(--duration-zoom-in) var(--ease-zoom)
+    forwards;
+}
+
+.thumbnail-container button.thumbnail-fade-in-closing {
+  animation: thumbnail-fade-in-closing var(--duration-close-transition)
+    var(--ease-zoom) forwards;
+}
+
+@keyframes thumbnail-fade-out-opening {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes thumbnail-fade-in-closing {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Lightbox and children */
+
+/* Exit State */
+
+.lightbox-dialog {
+  display: none;
+  transform: translateX(100%);
+  opacity: 0;
+  /* For exit */
+
+  transition:
+    overlay 1s var(--lightbox-transition-base),
+    display 1s var(--lightbox-transition-base);
+  border: none;
+  background: none;
+  padding: 0;
+  overflow: clip;
+  outline: none;
+}
+/* Programmatic focus only (tabindex="-1"), no visible ring needed */
+.lightbox-image-container:focus {
+  outline: none;
+}
+@media (width <= 640px) {
+  .lightbox-dialog {
+    --duration-zoom-in: 0.5s; /* Faster animations on mobile */
+    --dialog-gutter: 2ch;
+    --thumbnail-strip-height: 5rem; /* Smaller on mobile */
+  }
+
+  .thumbnail-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+  }
+}
+/* Open state */
+.lightbox-dialog[open] {
+  display: grid;
+  grid-template-rows:
+    [main-start] var(--dialog-gutter)
+    [interior-start] 1fr [interior-end] var(--dialog-gutter) [main-end];
+  grid-template-columns:
+    [main-start] calc(var(--dialog-gutter) * 2)
+    [interior-start] 1fr[interior-end] calc(var(--dialog-gutter) * 2)
+    [main-end];
+  /* named grid areas used for navigation positioning */
+  grid-template-areas:
+    'tlhs top trhs'
+    'clhs content crhs'
+    'blhs bottom brhs';
+  transform: translateX(0); /* Slide in */
+  opacity: 1;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100%;
+}
+
+/* Dialog grid with thumbnail strip */
+.lightbox-dialog[data-thumbnails='true'][open] {
+  grid-template-rows:
+    [main-start] var(--dialog-gutter) [interior-start] minmax(0, 1fr)
+    [interior-end] var(--dialog-gutter)
+    [main-end] var(--thumbnail-strip-height);
+  grid-template-areas:
+    'tlhs top trhs'
+    'clhs content crhs'
+    'blhs bottom brhs'
+    'thumbs thumbs thumbs';
+}
+
+/* Backdrop base styles */
+.lightbox-dialog::backdrop {
+  background: var(--backdrop-color);
+  opacity: 0;
+  /* Blur background if using semi-transparent background */
+  /* backdrop-filter: blur(5px); */
+}
+
+/* Open State - backdrop visible */
+.lightbox-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+/* Before opening - starting styles */
+@starting-style {
+  .lightbox-dialog[open] {
+    translate: 0 100vh;
+  }
+  .lightbox-dialog[open]::backdrop {
+    opacity: 0 !important;
+  }
+  .lightbox-dialog[open]
+    .lightbox-content
+    .lightbox-image-container
+    figcaption {
+    opacity: 0;
+  }
+  .lightbox-dialog[open] button {
+    opacity: 0;
+  }
+}
+
+/* When dialog is closing - dialog stays visible until image matches thumbnail */
+.lightbox-dialog.closing::backdrop {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+.lightbox-dialog.closing button,
+.lightbox-dialog.closing figcaption {
+  opacity: 0;
+  transition: opacity var(--duration-close-transition) ease;
+}
+
+/* Fallback fade out animation - for images beyond thumbnail limit */
+.lightbox-dialog.closing .active .lightbox-image.fade-only {
+  opacity: 0;
+  animation: none;
+  transition: opacity var(--duration-close-transition) ease-out;
+  will-change: auto;
+}
+
+/* Lightbox Content */
+.lightbox-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas: 'content';
+  grid-row-start: main-start;
+  grid-row-end: main-end;
+  grid-column-start: main-start;
+  grid-column-end: main-end;
+  width: 100dvw;
+  height: 100%;
+  /* Native scroll-snap for slide transitions */
+  scroll-snap-type: x mandatory;
+}
+
+/* Initial state for the image */
+.lightbox-image-container {
+  display: grid;
+  grid-template-rows: 1fr var(--caption-height);
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'image'
+    'caption';
+  grid-area: content;
+  place-content: center;
+  opacity: 0;
+  /* Slide switch transitions, opacity is used in fade mode, transform in slide */
+  transition:
+    opacity var(--duration-slide-transition) var(--ease-slide-transition),
+    transform var(--duration-slide-transition) var(--ease-slide-transition); /* Open-props transition to liven it up a bit */
+  pointer-events: none;
+  /* Snap alignment for native slide feel */
+  scroll-snap-align: center;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .lightbox-image-wrapper {
+    grid-area: image;
+    display: grid;
+    overflow: visible;
+  }
+  figcaption {
+    grid-area: caption;
+    opacity: 1;
+    transition: opacity var(--duration-background-transition) ease-in
+      var(--delay-background-transition);
+    padding: 1ch;
+
+    p {
+      margin: auto;
+      color: var(--caption-color);
+      font-weight: 200;
+      text-align: center;
+      text-wrap: balance;
+    }
+    /* Image title */
+    p:first-child {
+      padding-block-start: 1.5rem;
+      padding-block-end: 0.75rem;
+      font-weight: 800;
+    }
+  }
+  .lightbox-image {
+    /* Custom properties for zoom animation */
+    --initial-scale: 1;
+    --initial-x: 0px;
+    --initial-y: 0px;
+    --final-x: 0px;
+    --final-y: 0px;
+    --final-scale: 1;
+
+    display: block;
+    transform-origin: top left;
+    opacity: 1;
+    will-change: transform;
+    /* Default transform uses final properties for correct positioning during navigation */
+    transform: translate(var(--final-x), var(--final-y))
+      scale(var(--final-scale));
+    /* No animation by default - triggered by .zoom-in or .zoom-out class */
+
+    /* Size constraints */
+    max-width: 100dvw;
+    max-height: calc(100dvh - var(--caption-height));
+  }
+
+  /* Higher specificity selector to override HTML width/height attributes from Astro Image */
+  img.lightbox-image[width][height] {
+    width: auto;
+    height: auto;
+  }
+
+  /* Zoom-in animation triggered by class */
+  .lightbox-image.zoom-in {
+    animation: zoom-in-animation var(--duration-zoom-in) var(--ease-zoom)
+      forwards;
+  }
+
+  /* Zoom-out animation triggered by class */
+  .lightbox-image.zoom-out {
+    animation: zoom-out-animation var(--duration-close-transition) ease-out
+      forwards;
+  }
+}
+@keyframes zoom-in-animation {
+  from {
+    transform: translate(var(--initial-x), var(--initial-y))
+      scale(var(--initial-scale));
+  }
+  to {
+    transform: translate(var(--final-x), var(--final-y))
+      scale(var(--final-scale));
+  }
+}
+@keyframes zoom-out-animation {
+  from {
+    transform: translate(var(--final-x), var(--final-y))
+      scale(var(--final-scale));
+  }
+  to {
+    transform: translate(var(--initial-x), var(--initial-y))
+      scale(var(--initial-scale));
+  }
+}
+
+/* Reduce image max-height when thumbnail strip is visible */
+.lightbox-dialog[data-thumbnails='true'] .lightbox-image {
+  max-height: calc(
+    100dvh - var(--caption-height) - var(--thumbnail-strip-height)
+  );
+}
+
+/* Styling for fade and slide transitions  */
+.lightbox-dialog[data-option='fade'] .lightbox-image-container {
+  transform: none;
+}
+
+/* Slide transitions - using simple class-based specificity */
+.lightbox-dialog[data-option='slide'] .lightbox-image-container {
+  transform: translateX(100%);
+}
+
+.lightbox-dialog[data-option='slide'] .lightbox-image-container.previous {
+  transform: translateX(-100%);
+}
+
+.lightbox-dialog[data-option='slide'] .lightbox-image-container.next {
+  transform: translateX(100%);
+}
+
+.lightbox-dialog[data-option='slide'] .lightbox-image-container.active {
+  transform: translateX(0%);
+}
+
+/* When closing, remove slide transforms so zoom-out animation can work */
+.lightbox-dialog.closing[data-option='slide'] .lightbox-image-container {
+  transform: none;
+  transition: none; /* Disable container transitions during close to prevent interference with zoom animation */
+}
+
+/* Navigation Buttons */
+.lightbox-dialog {
+  button {
+    opacity: 1;
+    z-index: 999;
+    transition: opacity var(--duration-background-transition) ease-in
+      var(--delay-background-transition);
+    outline: none;
+    border: none;
+    /* Style the SVG icons */
+    & svg {
+      transition: color 0.2s ease-in-out;
+      padding: 0;
+      aspect-ratio: 1 / 1;
+      width: 38px;
+      height: 100%;
+      color: var(--nav-icon-color);
+    }
+    &:hover svg,
+    &:focus-visible svg {
+      color: var(--nav-icon-color-hover);
+    }
+  }
+}
+.prev-button,
+.next-button,
+.close-button {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background: none;
+}
+
+.prev-button {
+  grid-area: clhs;
+}
+.next-button {
+  grid-area: crhs;
+}
+.close-button {
+  grid-area: trhs;
+  cursor: zoom-out;
+}
+
+/* Lightbox Thumbnail Strip */
+.lightbox-thumbnails {
+  grid-area: thumbs;
+  display: flex;
+  align-items: center;
+  justify-content: safe center;
+  gap: 0.5rem;
+  padding-inline: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  opacity: 0;
+  transition: opacity var(--duration-background-transition)
+    var(--lightbox-transition-base) var(--delay-background-transition);
+
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: oklch(50% 0 0 / 0.5) transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: oklch(50% 0 0 / 0.5);
+    border-radius: 3px;
+  }
+}
+
+.lightbox-dialog[open] .lightbox-thumbnails {
+  opacity: 1;
+}
+
+.lightbox-dialog.closing .lightbox-thumbnails {
+  opacity: 0;
+}
+
+/* Safari 26.3.1 bug: image was rendering at full natural width (2600px) instead of constrained size
+   when width was set to auto. Fixed by: (1) explicit width: 80px, (2) redundant aspect-ratio: 1/1.
+   Both are required for Safari 26.3.1 compatibility. Revisit in future Safari versions. */
+.lightbox-thumbnail {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  scroll-snap-align: center;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+  overflow: hidden;
+
+  & img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid oklch(80% 0 0);
+    outline-offset: 2px;
+  }
+
+  &[aria-selected='true'] {
+    border-color: oklch(95% 0 0);
+    transform: scale(1.1);
+  }
+}
+
+/* Collapse thumbnail strip on very short viewports */
+@media (max-height: 500px) {
+  .lightbox-dialog[data-thumbnails='true'][open] {
+    --thumbnail-strip-height: 0;
+  }
+  .lightbox-thumbnails {
+    display: none;
+  }
+}
+
+/* * {
+  outline: 1px solid red;
+} */
+</style>
