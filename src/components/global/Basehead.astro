@@ -16,6 +16,7 @@ const {
 	description,
 	imageOG = "generic-social-1200x630.png",
 	altOG = "Social Media Card",
+	noindex = false,
 } = metaData;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
@@ -28,6 +29,10 @@ import "@styles/style.css";
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
+  {noindex
+    ? <meta name="robots" content="noindex, follow" />
+    : <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  }
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonicalURL} />

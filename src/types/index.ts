@@ -13,4 +13,6 @@ export interface MetaData {
 	imageOG?: string;
 	/** Alt text for Open Graph image */
 	altOG?: string;
+	/** Prevent search engine indexing */
+	noindex?: boolean;
 }

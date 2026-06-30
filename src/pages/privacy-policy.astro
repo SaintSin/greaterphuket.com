@@ -4,7 +4,8 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 const meta = {
 	title: `Privacy Policy — ${siteMetadata.name}`,
-	description: `Privacy policy for greaterphuket.com — what data we collect, why, and your rights.`,
+	description: `Privacy policy for greaterphuket.com — what data we collect, why, and your rights under GDPR, CCPA, and other applicable privacy laws.`,
+	noindex: true,
 };
 ---
 
@@ -13,83 +14,265 @@ const meta = {
     <h1>Privacy Policy</h1>
     <p><em>Last updated: June 2026</em></p>
 
-    <h2>Who we are</h2>
     <p>
-      This website is operated by the team behind Greater Phuket. If you have
-      any questions about this policy, contact us at:
-      <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>
+      This Privacy Policy explains how we collect, use, and safeguard your
+      information in compliance with global privacy regulations, including:
     </p>
 
-    <h2>What data we collect and why</h2>
-    <h3>Analytics</h3>
-    <p>
-      With your consent, we use Google Analytics 4 (GA4) to collect anonymised
-      information about how visitors use the site — pages visited, time on page,
-      and general location (country/region). This data is aggregated and cannot
-      identify you personally.
-    </p>
-    <p>
-      We use Google's consent mode: analytics cookies are not set until you
-      accept via the cookie banner. You can withdraw consent at any time by
-      clearing your browser cookies and declining on your next visit.
-    </p>
-    <p>Legal basis: <strong>Consent</strong> (GDPR Art. 6(1)(a)).</p>
+    <h2>Applicable Privacy Regulations</h2>
 
-    <h3>Contact</h3>
-    <p>
-      If you email us directly, we retain your email address and message only
-      for as long as needed to respond.
-    </p>
-    <p>Legal basis: <strong>Legitimate interests</strong> (GDPR Art. 6(1)(f)).</p>
-
-    <h2>Cookies</h2>
-    <p>
-      We only set analytics cookies after you give consent. No tracking or
-      advertising cookies are used. See our cookie banner for controls.
-    </p>
-
-    <h2>Third-party services</h2>
+    <h3>Europe</h3>
     <ul>
-      <li>
-        <strong>Google Analytics 4</strong> — data processed by Google LLC in
-        the US under standard contractual clauses. See
-        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
-          Google's Privacy Policy
-        </a>.
-      </li>
-      <li>
-        <strong>Netlify</strong> — our hosting provider. Server logs (IP
-        address, user agent) are retained for up to 30 days. See
-        <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">
-          Netlify's Privacy Policy
-        </a>.
-      </li>
+      <li><strong>GDPR</strong> (General Data Protection Regulation, EU)</li>
+      <li><strong>UK Data Protection Act 2018</strong></li>
     </ul>
 
-    <h2>Your rights</h2>
-    <p>Under GDPR and UK GDPR you have the right to:</p>
+    <h3>Americas</h3>
     <ul>
-      <li>Access the personal data we hold about you</li>
-      <li>Request correction or deletion of your data</li>
-      <li>Object to or restrict processing</li>
-      <li>Withdraw consent at any time</li>
-      <li>Lodge a complaint with your supervisory authority</li>
+      <li><strong>CCPA</strong> (California Consumer Privacy Act, USA)</li>
+      <li><strong>LGPD</strong> (Lei Geral de Proteção de Dados, Brazil)</li>
+      <li><strong>PIPEDA</strong> (Personal Information Protection and Electronic Documents Act, Canada)</li>
     </ul>
+
+    <h3>Asia-Pacific</h3>
+    <ul>
+      <li><strong>Australia Privacy Act 1988</strong></li>
+      <li><strong>New Zealand Privacy Act 2020</strong></li>
+      <li><strong>PDPA</strong> (Personal Data Protection Act, Singapore)</li>
+    </ul>
+
+    <h3>Africa</h3>
+    <ul>
+      <li><strong>POPIA</strong> (Protection of Personal Information Act, South Africa)</li>
+    </ul>
+
+    <p>We also comply with other applicable international privacy laws in your jurisdiction.</p>
+
+    <h2>1. Who We Are</h2>
     <p>
-      To exercise any of these rights, contact us at
+      Greater Phuket is a content website covering travel, lifestyle, and local
+      information for Phuket and the surrounding region. If you have any
+      questions about this policy, contact us at{" "}
       <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>.
     </p>
 
-    <h2>Data retention</h2>
+    <h2>2. Information We Collect</h2>
+
+    <h3>Information Collected Automatically</h3>
+    <ul>
+      <li><strong>Device Information</strong>: Browser type, device type, operating system.</li>
+      <li><strong>Usage Data</strong>: Pages visited, time on page, links clicked, referring pages.</li>
+      <li><strong>Location Data</strong>: Approximate location derived from your IP address (country/region level only).</li>
+      <li><strong>Cookies and Tracking Technologies</strong>: Only with your consent (see Section 7).</li>
+    </ul>
+
+    <h3>Information You Provide Directly</h3>
+    <ul>
+      <li><strong>Communications</strong>: If you email us directly, we retain your email address and message only for as long as needed to respond.</li>
+    </ul>
+
+    <h2>3. How We Use Your Information</h2>
+    <ul>
+      <li><strong>Website Improvement</strong>: Analysing usage patterns to improve content and performance.</li>
+      <li><strong>Personalisation</strong>: Displaying appropriate currency formats based on approximate location (via Netlify geolocation).</li>
+      <li><strong>Communication</strong>: Responding to direct enquiries.</li>
+      <li><strong>Legal Compliance</strong>: Complying with legal obligations and protecting our rights.</li>
+    </ul>
+
+    <h2>4. Legal Basis for Processing (GDPR)</h2>
+    <ul>
+      <li><strong>Consent</strong>: Analytics cookies are only set after you accept via the consent banner.</li>
+      <li><strong>Legitimate Interests</strong>: To improve our website and respond to direct enquiries.</li>
+      <li><strong>Legal Obligation</strong>: To comply with applicable laws.</li>
+    </ul>
+
+    <h2>5. Third-Party Data Processing</h2>
+
+    <h3>Google Analytics</h3>
     <p>
-      Analytics data is retained for 14 months in Google Analytics, after which
-      it is automatically deleted.
+      With your consent, we use <strong>Google Analytics 4</strong> to
+      understand how visitors use the site. It collects pages visited, time on
+      page, traffic sources, device type, and approximate geographic location.
+      No analytics data is collected until you accept via the cookie banner.
+    </p>
+    <p>
+      <strong>Google's Privacy Policy</strong>:{" "}
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+        policies.google.com/privacy
+      </a>
+    </p>
+    <p>
+      You can opt out at any time by clearing your browser cookies and declining
+      on your next visit, or by installing the{" "}
+      <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">
+        Google Analytics Opt-out Browser Add-on
+      </a>.
     </p>
 
-    <h2>Changes to this policy</h2>
+    <h3>Pandalytics</h3>
     <p>
-      We may update this policy from time to time. The "last updated" date at
-      the top of the page will reflect any changes.
+      We use <strong>Pandalytics</strong>, our proprietary analytics platform,
+      to track page performance and user behaviour. Pandalytics collects:
+    </p>
+    <ul>
+      <li>Page URLs, paths, and referrers.</li>
+      <li>Session identifiers and device information (screen size, browser type).</li>
+      <li>Approximate location (country code, derived from your IP address).</li>
+      <li>Web performance metrics (page load times, Core Web Vitals).</li>
+      <li>User agent and browser information.</li>
+    </ul>
+    <p>
+      This data is stored in our database and is used solely to improve website
+      performance and user experience. Pandalytics data is retained for up to
+      12 months.
+    </p>
+
+    <h3>Netlify</h3>
+    <p>
+      We use <strong>Netlify</strong> for website hosting. Netlify collects
+      your IP address to determine your approximate geographic location (country
+      code only), which is used to display appropriate currency formats. Server
+      logs (IP address, user agent) are retained for up to 30 days. Netlify
+      does not retain geolocation data beyond the immediate transaction.
+    </p>
+    <p>
+      <strong>Netlify's Privacy Policy</strong>:{" "}
+      <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener noreferrer">
+        netlify.com/privacy
+      </a>
+    </p>
+
+    <h2>6. Your Privacy Rights</h2>
+
+    <h3>Under GDPR (EU residents)</h3>
+    <ul>
+      <li><strong>Access</strong>: Obtain a copy of your personal data.</li>
+      <li><strong>Rectification</strong>: Correct inaccurate or incomplete data.</li>
+      <li><strong>Erasure</strong>: Request deletion of your data ("right to be forgotten").</li>
+      <li><strong>Portability</strong>: Receive your data in a portable format.</li>
+      <li><strong>Objection</strong>: Opt out of processing based on legitimate interests.</li>
+      <li><strong>Restrict Processing</strong>: Limit how we use your data.</li>
+      <li><strong>Lodge a Complaint</strong>: Contact your local data protection authority.</li>
+    </ul>
+
+    <h3>Under UK GDPR (UK residents)</h3>
+    <p>Same rights as EU GDPR above. You may also file a complaint with the <strong>Information Commissioner's Office (ICO)</strong>.</p>
+
+    <h3>Under CCPA (California residents)</h3>
+    <ul>
+      <li><strong>Know</strong>: What personal information is collected, used, and shared.</li>
+      <li><strong>Delete</strong>: Request deletion of personal information.</li>
+      <li><strong>Opt-Out</strong>: Opt out of the sale or sharing of personal information. (We do not sell personal information.)</li>
+      <li><strong>Non-Discrimination</strong>: We will not discriminate against you for exercising your rights.</li>
+      <li><strong>Correct</strong>: Request correction of inaccurate personal information.</li>
+    </ul>
+
+    <h3>Under LGPD (Brazil residents)</h3>
+    <ul>
+      <li>Access, correct, and request deletion of your personal data.</li>
+      <li>Request clarification about how your data is used.</li>
+      <li>File a complaint with the Brazilian Data Protection Authority (ANPD).</li>
+    </ul>
+
+    <h3>Under PIPEDA (Canada residents)</h3>
+    <ul>
+      <li>Access and review your personal information.</li>
+      <li>Request correction of inaccurate information.</li>
+      <li>Withdraw consent for data collection.</li>
+      <li>File a complaint with the Privacy Commissioner of Canada.</li>
+    </ul>
+
+    <h3>Under the Australia Privacy Act 1988</h3>
+    <ul>
+      <li>Access and request correction of your personal information.</li>
+      <li>Make a complaint to the Office of the Australian Information Commissioner.</li>
+    </ul>
+
+    <h3>Under the New Zealand Privacy Act 2020</h3>
+    <ul>
+      <li>Access and request correction of your personal information.</li>
+      <li>File a complaint with the New Zealand Privacy Commissioner.</li>
+    </ul>
+
+    <h3>Under PDPA (Singapore residents)</h3>
+    <ul>
+      <li>Access and correct your personal data.</li>
+      <li>Request withdrawal of consent.</li>
+      <li>File a complaint with the Personal Data Protection Commission.</li>
+    </ul>
+
+    <h3>Under POPIA (South Africa residents)</h3>
+    <ul>
+      <li>Request access, correction, or deletion of your personal information.</li>
+      <li>Request restriction of processing.</li>
+      <li>File a complaint with the Information Regulator.</li>
+    </ul>
+
+    <h3>How to Exercise Your Rights</h3>
+    <p>
+      Contact us at{" "}
+      <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>.
+      We will respond within 30 days (or as required by applicable law).
+    </p>
+
+    <h2>7. Cookies</h2>
+    <p>
+      We only set analytics cookies after you give consent via the cookie
+      banner. No advertising or tracking cookies are used. You can withdraw
+      consent at any time by clearing your browser cookies and declining on your
+      next visit.
+    </p>
+    <ul>
+      <li><strong>Essential</strong>: Your consent preference is stored in <code>localStorage</code> (not a cookie) and is never shared.</li>
+      <li><strong>Analytics</strong>: Google Analytics 4 cookies, set only with consent.</li>
+    </ul>
+
+    <h2>8. International Data Transfers</h2>
+    <p>
+      Your data may be transferred to and processed in the United States (Google
+      Analytics, Netlify). We rely on Standard Contractual Clauses (SCCs) as
+      the legal mechanism for international data transfers under GDPR.
+    </p>
+
+    <h2>9. Data Security</h2>
+    <p>
+      We use HTTPS encryption for all data in transit, and rely on Netlify's
+      secure infrastructure. No method of transmission over the internet is
+      100% secure; we cannot guarantee absolute security. In the event of a
+      data breach affecting your personal information, we will notify you and
+      relevant authorities as required by law.
+    </p>
+
+    <h2>10. Data Retention</h2>
+    <ul>
+      <li><strong>Google Analytics</strong>: Retained for 14 months, then automatically deleted by Google.</li>
+      <li><strong>Pandalytics</strong>: Page views and performance metrics retained for up to 12 months.</li>
+      <li><strong>Netlify logs</strong>: Retained for up to 30 days.</li>
+      <li><strong>Email communications</strong>: Retained only as long as needed to respond, then deleted.</li>
+      <li><strong>Consent preference</strong>: Stored in your browser's <code>localStorage</code> until cleared.</li>
+    </ul>
+
+    <h2>11. Changes to This Policy</h2>
+    <p>
+      We may update this policy to reflect changes in our practices or legal
+      requirements. We will update the "Last updated" date above when we do.
+      Continued use of the website after changes constitutes acceptance of the
+      updated policy.
+    </p>
+
+    <h2>12. Contact</h2>
+    <p>
+      For any privacy-related questions, to exercise your rights, or to raise a
+      concern:
+    </p>
+    <p>
+      <strong>Email</strong>:{" "}
+      <a href={`mailto:${siteMetadata.contactEmail}`}>{siteMetadata.contactEmail}</a>
+    </p>
+    <p>
+      EU residents also have the right to lodge a complaint with their local
+      data protection authority. California residents may contact the California
+      Attorney General.
     </p>
   </main>
 </BaseLayout>

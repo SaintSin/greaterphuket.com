@@ -19,6 +19,6 @@ export const siteMetadata: SiteMetadata = {
 	name: "Greater Phuket",
 	description: "Exploring Phuket and beyond",
 	logo: "/logo.svg",
-	contactEmail: "info@example.com",
+	contactEmail: "info@greaterphuket.com",
 	gaId: "G-RVF7T5XNLY",
 };
