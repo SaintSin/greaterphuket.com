@@ -20,5 +20,5 @@ export const siteMetadata: SiteMetadata = {
 	description: "Exploring Phuket and beyond",
 	logo: "/logo.svg",
 	contactEmail: "info@example.com",
-	gaId: "G-RVF7T5XNLY", // Replace with real GA4 Measurement ID
+	gaId: "G-RVF7T5XNLY",
 };

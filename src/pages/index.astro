@@ -7,7 +7,7 @@ import { AstroZoom } from "astro-zoom";
 import photo from "@images/panda-01.jpg";
 const meta = {
 	title: "Greater Phuket",
-	description: "Phuket and beyond: Phang Nga, Krabbi and more…",
+	description: "Phuket and beyond: Phang Nga, Krabi and more…",
 	imageOG: "generic-social-1200x630.png",
 	altOG: "Alt text for OG image",
 };
@@ -16,21 +16,19 @@ const meta = {
 <Layout metaData={meta}>
   <main class="wrapper flow">
     <h1>Greater Phuket</h1>
-    <p>Phuket, Phang Nga, Krabbi and beyond.</p>
+    <p>Phuket, Phang Nga, Krabi and beyond.</p>
     <hr />
-    <p>
+    <!-- <p>
       A bowl of pad thai costs {formatCurrency(80, "THB")}<span class="price-alt" data-thb="80"></span>,
       a Grab to the beach around {formatCurrency(300, "THB")}<span class="price-alt" data-thb="300"></span>,
       and a guesthouse room from {formatCurrency(1200, "THB")}<span class="price-alt" data-thb="1200"></span> a night.
-    </p>
-    <hr />
-    <AstroZoom
+    </p> -->
+    <!-- <AstroZoom
   src={photo}
   alt="A descriptive alt text"
   caption="Brief caption shown on the page"
   modalCaption="An expanded description shown inside the zoomed modal."
-/>
-<hr/>
+/> -->
     <!-- <Pandabox galleryid="panda" transitionType="fade" showThumbnails={true} /> -->
   </main>
   <section class="content-grid"></section>
