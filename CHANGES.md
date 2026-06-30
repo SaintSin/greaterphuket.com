@@ -1,5 +1,40 @@
 # Changes
 
+## 2026-06-30
+
+### Site launch
+
+Greater Phuket is now live at [greaterphuket.com](https://greaterphuket.com).
+
+---
+
+### Security headers & CSP
+
+Added a `[[headers]]` block to `netlify.toml` with a Content Security Policy and standard companion headers, applied to all routes.
+
+**CSP allows:**
+- Scripts from `'self'` and `https://www.googletagmanager.com` (deferred GA4 load)
+- Connections to `'self'`, `https://www.google-analytics.com`, `https://region1.google-analytics.com`, and `https://www.googletagmanager.com` (GA4 collect)
+- Inline scripts and styles (`'unsafe-inline'`) required by Astro's `is:inline` and scoped style injection
+
+**Additional headers:**
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+
+---
+
+### Deferred Google Analytics with consent mode
+
+Added GA4 (`G-RVF7T5XNLY`) wired to the consent banner — no GA script loads until the user accepts. Implementation uses GA4 Consent Mode v2 with all storage denied by default; `window.grantConsent()` is called by `ConsentBanner.astro` on accept (or on page load if previously accepted). Previously accepted consent is persisted in `localStorage`.
+
+**Files changed:**
+- `src/config/siteMetadata.ts` — `gaId` field
+- `src/components/global/Basehead.astro` — inline consent-mode bootstrap + deferred script loader
+- `src/components/global/ConsentBanner.astro` — UI + localStorage + `grantConsent()` integration
+
+---
+
 ## 2026-06-26
 
 ### astro-zoom

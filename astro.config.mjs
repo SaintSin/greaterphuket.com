@@ -1,7 +1,6 @@
 // @ts-check
 
 import netlify from "@astrojs/netlify";
-import partytown from "@astrojs/partytown";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig, svgoOptimizer } from "astro/config";
 
@@ -20,7 +19,6 @@ export default defineConfig({
 	integrations: [
 		sitemap(),
 		icon(),
-		partytown({ config: { forward: ["dataLayer.push"] } }),
 		llmsTxt({
 			generateIndividualMd: true,
 		}),
