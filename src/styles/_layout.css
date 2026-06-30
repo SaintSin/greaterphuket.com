@@ -2,10 +2,11 @@ body {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	background: var(--color-bg);
+	color: var(--color-text);
 	min-height: 100dvh;
-	font-size: var(--font-size-2);
-	line-height: 1.5;
-	font-family: var(--font-system-ui);
+	font-size: var(--step-0);
+	line-height: 1.6;
+	font-family: var(--font-sans);
 	text-wrap: balance;
 }
 
@@ -27,4 +28,6 @@ h3,
 h4,
 h5 {
 	text-wrap: pretty;
+	font-family: var(--font-serif);
+	line-height: 1.15;
 }

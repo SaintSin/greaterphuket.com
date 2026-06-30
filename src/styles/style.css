@@ -6,6 +6,7 @@
 @import "compositions/flow.css" layer(components);
 @import "compositions/wrapper.css" layer(components);
 @import "compositions/grid.css" layer(components);
+@import "two_column.css";
 
 .content {
 	height: 100%;

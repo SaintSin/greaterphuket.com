@@ -47,25 +47,69 @@
 	--wrapper-max-width: var(--max-content-width);
 
 	/* Breakpoints */
-
 	--breakpoint-sm: 640px;
 	--breakpoint-md: 768px;
 	--breakpoint-lg: 1024px;
 	--breakpoint-xl: 1280px;
 	--breakpoint-2xl: 1536px;
 
-	/* Semantic color tokens using Open Props */
-	--color-primary: var(--blue-6);
-	--color-secondary: var(--purple-6);
-	--color-accent: var(--orange-6);
+	/* ─── Andaman palette ───────────────────────────────────────────────────── */
 
-	--color-text: var(--gray-7);
-	--color-text-subtle: var(--gray-7);
-	--color-bg: var(--gray-0);
-	--color-surface: oklch(87.61% 0.0001 271.152);
+	/* Dune — bleached limestone through warm charcoal (renamed from --sand to avoid Open Props clash) */
+	--dune-0: oklch(98% 0.005 65);
+	--dune-1: oklch(95% 0.01 65);
+	--dune-2: oklch(88% 0.018 63);
+	--dune-3: oklch(78% 0.022 62);
+	--dune-4: oklch(62% 0.022 62);
+	--dune-5: oklch(42% 0.018 62);
+	--dune-6: oklch(24% 0.012 62);
 
-	--color-success: var(--green-6);
-	--color-warning: var(--yellow-6);
-	--color-error: var(--red-6);
-	--color-info: var(--blue-6);
+	/* Sea — jade green through deep Andaman blue */
+	--sea-0: oklch(92% 0.06 195);
+	--sea-1: oklch(82% 0.1 193);
+	--sea-2: oklch(72% 0.13 192);
+	--sea-3: oklch(60% 0.14 207);
+	--sea-4: oklch(48% 0.14 220);
+	--sea-5: oklch(35% 0.1 230);
+
+	/* Sky — cerulean to deep blue */
+	--sky-0: oklch(88% 0.1 235);
+	--sky-1: oklch(72% 0.15 240);
+	--sky-2: oklch(58% 0.17 245);
+	--sky-3: oklch(42% 0.15 250);
+	--sky-4: oklch(28% 0.1 255);
+
+	/* Canopy — lush tropical greens (renamed from --jungle to avoid Open Props clash; HSL for gamut safety) */
+	--canopy-0: hsl(115 28% 91%);
+	--canopy-1: hsl(118 24% 74%);
+	--canopy-2: hsl(125 42% 35%);
+	--canopy-3: hsl(128 48% 22%);
+	--canopy-4: hsl(130 38% 13%);
+
+	/* Gold — Phang Nga sunset amber */
+	--gold-0: oklch(96% 0.06 80);
+	--gold-1: oklch(85% 0.12 75);
+	--gold-2: oklch(72% 0.16 65);
+	--gold-3: oklch(58% 0.18 55);
+
+	/* ─── Semantic tokens ────────────────────────────────────────────────────── */
+
+	--color-bg: var(--dune-0);
+	--color-surface: var(--dune-1);
+	--color-border: var(--dune-2);
+
+	--color-text: var(--dune-6);
+	--color-text-subtle: var(--dune-5);
+	--color-text-faint: var(--dune-4);
+
+	--color-primary: var(--sea-3);
+	--color-primary-dark: var(--sea-5);
+	--color-accent: var(--gold-2);
+	--color-accent-dark: var(--gold-3);
+	--color-canopy: var(--canopy-3);
+
+	/* ─── Typography ─────────────────────────────────────────────────────────── */
+
+	--font-serif: "Lora", Georgia, serif;
+	--font-sans: "DM Sans", system-ui, sans-serif;
 }

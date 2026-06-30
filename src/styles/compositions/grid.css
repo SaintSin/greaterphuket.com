@@ -85,3 +85,13 @@ to change how empty grid tracks are handled */
 		[full-end];
 	grid-area: content;
 }
+
+/* Default all children to the content column */
+.content-grid > * {
+	grid-column: content;
+}
+
+/* Breakout utilities */
+.content-grid > .breakout-popout  { grid-column: popout; }
+.content-grid > .breakout-feature { grid-column: feature; }
+.content-grid > .breakout-full    { grid-column: full; }

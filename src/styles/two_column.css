@@ -10,11 +10,14 @@
 	.full-width-split-screen {
 		padding-block: 0;
 	}
-	.full-width-split-screen img {
+	.full-width-split-screen :where(img, picture img) {
 		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		display: block;
 	}
 
-	.full-width-split-screen > :not(img) {
+	.full-width-split-screen > :not(:where(img, picture)) {
 		padding-inline: var(--wrapper-padding-inline);
 		padding-block: var(--wrapper-padding-inline);
 	}
@@ -30,32 +33,37 @@
 				minmax(var(--wrapper-padding-inline), 1fr);
 			grid-template-areas: "left-bleed left-col right-col right-bleed";
 		}
-		.full-width-split-screen:not(.overlay) > img:first-child {
+		.full-width-split-screen:not(.overlay) > :where(img, picture):first-child {
 			grid-column: 1 / 3;
 		}
-		.full-width-split-screen:not(.overlay) > img:last-child {
+		.full-width-split-screen:not(.overlay) > :where(img, picture):last-child {
 			grid-column: 3 / -1;
 		}
-		.full-width-split-screen:not(.overlay) > :not(img) {
+		.full-width-split-screen:not(.overlay) > :not(:where(img, picture)) {
 			display: grid;
 			align-content: start;
 		}
-		.full-width-split-screen:not(.overlay) > :not(img):first-child {
+		.full-width-split-screen:not(.overlay)
+			> :not(:where(img, picture)):first-child {
 			grid-column: 2 / 3;
 		}
-		.full-width-split-screen:not(.overlay) > :not(img):last-child {
+		.full-width-split-screen:not(.overlay)
+			> :not(:where(img, picture)):last-child {
 			grid-column: 3 / 4;
 		}
-		.full-width-split-screen:not(.overlay) > :not(img)::before {
+		.full-width-split-screen:not(.overlay)
+			> :not(:where(img, picture))::before {
 			position: absolute;
 			inset: 0;
 			background: inherit;
 			content: " ";
 		}
-		.full-width-split-screen:not(.overlay) > :not(img):first-child::before {
+		.full-width-split-screen:not(.overlay)
+			> :not(:where(img, picture)):first-child::before {
 			grid-column: 1 / 2;
 		}
-		.full-width-split-screen:not(.overlay) > :not(img):last-child::before {
+		.full-width-split-screen:not(.overlay)
+			> :not(:where(img, picture)):last-child::before {
 			grid-column: 4 / 5;
 		}
 	}
@@ -89,14 +97,14 @@
 
 	@media (min-width: 600px) {
 		/* Overlay variant - desktop: all elements on row 1, overlaid */
-		.full-width-split-screen.overlay > img {
+		.full-width-split-screen.overlay > :where(img, picture) {
 			grid-row: 1;
 			height: 100%;
 		}
-		.full-width-split-screen.overlay > img:first-of-type {
+		.full-width-split-screen.overlay > :where(img, picture):first-of-type {
 			grid-column: 1 / 3;
 		}
-		.full-width-split-screen.overlay > img:last-of-type {
+		.full-width-split-screen.overlay > :where(img, picture):last-of-type {
 			grid-column: 3 / 5;
 		}
 		.full-width-split-screen.overlay > div {

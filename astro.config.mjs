@@ -2,7 +2,7 @@
 
 import netlify from "@astrojs/netlify";
 import sitemap from "@astrojs/sitemap";
-import { defineConfig, svgoOptimizer } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import icon from "astro-icon";
 import llmsTxt from "astro-llms-md";
@@ -10,9 +10,6 @@ import robotsTxt from "astro-robots-txt";
 
 // https://astro.build/config
 export default defineConfig({
-	experimental: {
-		svgOptimizer: svgoOptimizer(),
-	},
 	image: {
 		responsiveStyles: true,
 	},

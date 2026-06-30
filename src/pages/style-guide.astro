@@ -1,0 +1,779 @@
+---
+import Layout from "@layouts/BaseLayout.astro";
+import { Picture } from "astro:assets";
+import imgHero from "@assets/images/james-bond-island/liga-meijere-hero.jpg";
+import imgBay1 from "@assets/images/james-bond-island/phang-nga-bay-feature.jpg";
+import imgBay2 from "@assets/images/james-bond-island/phang-nga-bay-2.jpg";
+import imgBay3 from "@assets/images/james-bond-island/phang-nga-bay-3.jpg";
+
+const meta = {
+	title: "Style Guide — Greater Phuket",
+	description: "Design system reference: palette, typography, components.",
+	imageOG: "generic-social-1200x630.png",
+	altOG: "Greater Phuket style guide",
+	noindex: true,
+};
+---
+
+<Layout metaData={meta}>
+  <main class="sg-page">
+
+    <!-- ─── Hero mock ─────────────────────────────────────────────────── -->
+    <section class="sg-hero">
+      <div class="sg-hero__overlay"></div>
+      <div class="sg-hero__content wrapper">
+        <p class="kicker">Phang Nga · Travel Guide</p>
+        <h1>James Bond Island: What It&#8217;s Actually Like to Visit</h1>
+        <p class="dek">The karst tower that launched a thousand longtails. It is genuinely extraordinary — but so is the crowd. Here is what to expect and how to make it worth the trip.</p>
+        <p class="byline">By Greater Phuket <span aria-hidden="true">·</span> 28 June 2026 <span aria-hidden="true">·</span> 8 min read</p>
+      </div>
+    </section>
+
+    <!-- ─── Fonts ───────────────────────────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">Typefaces</h2>
+      <div class="sg-font-pair">
+        <div class="sg-font-specimen">
+          <p class="sg-font-name">Lora — headings &amp; standfirsts</p>
+          <p class="sg-font-display" style="font-family: var(--font-serif);">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm</p>
+          <p class="sg-font-alpha" style="font-family: var(--font-serif);">The limestone karsts of Phang Nga Bay rise from jade-green water.</p>
+          <p class="sg-font-alpha sg-font-italic" style="font-family: var(--font-serif); font-style: italic;">The limestone karsts of Phang Nga Bay rise from jade-green water.</p>
+          <p class="sg-font-alpha" style="font-family: var(--font-serif); font-weight: 700;">The limestone karsts of Phang Nga Bay rise from jade-green water.</p>
+        </div>
+        <div class="sg-font-specimen">
+          <p class="sg-font-name">DM Sans — body, UI, kickers, bylines</p>
+          <p class="sg-font-display" style="font-family: var(--font-sans);">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm</p>
+          <p class="sg-font-alpha" style="font-family: var(--font-sans);">PHANG NGA · TRAVEL GUIDE · 28 June 2026 · 8 min read</p>
+          <p class="sg-font-alpha" style="font-family: var(--font-sans); font-weight: 500;">By Greater Phuket · Greater Phuket</p>
+          <p class="sg-font-alpha" style="font-family: var(--font-sans); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.75rem;">Category · Tag · Badge</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Typography ────────────────────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">Typography</h2>
+
+      <div class="sg-type-stack">
+        <div class="sg-type-row">
+          <span class="sg-type-meta">kicker / category tag</span>
+          <p class="kicker">Phang Nga · Travel Guide</p>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">H1 — article title (step-4)</span>
+          <h1 class="sg-demo-h1">James Bond Island: What It&#8217;s Actually Like to Visit</h1>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">H2 — section heading (step-3)</span>
+          <h2 class="sg-demo-h2">Getting There from Phuket</h2>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">H3 — subsection (step-2)</span>
+          <h3 class="sg-demo-h3">The Longtail Option</h3>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">dek / standfirst</span>
+          <p class="dek">The karst tower that launched a thousand longtails. It is genuinely extraordinary — but so is the crowd.</p>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">byline</span>
+          <p class="byline">By Greater Phuket <span aria-hidden="true">·</span> 28 June 2026 <span aria-hidden="true">·</span> 8 min read</p>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">body copy (step-0, serif)</span>
+          <p>Khao Phing Kan sits in Ao Phang Nga National Park, about 100km north of Phuket Town by road and sea. The approach matters as much as the destination: the boat ride through the bay's limestone karsts is the real spectacle, and most visitors are too focused on arriving to notice it.</p>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">caption / small</span>
+          <p class="caption">Khao Phing Kan at low tide, Ao Phang Nga National Park. Photo: Liga Meijere / Unsplash.</p>
+        </div>
+        <div class="sg-type-row">
+          <span class="sg-type-meta">two-column body text</span>
+          <div class="article-body">
+            <p>Khao Phing Kan sits in Ao Phang Nga National Park, about 100km north of Phuket Town. The approach matters as much as the destination: the boat ride through the bay's limestone karsts is the real spectacle, and most visitors are too focused on arriving to notice it.</p>
+            <p>The island itself is two landmasses joined by a low beach spit — Khao Phing Kan proper and Koh Tapu, the needle-thin islet that rises 20 metres from the water and became famous in <em>The Man with the Golden Gun</em> (1974). The production team never called it James Bond Island. The name arrived with the tourist boats.</p>
+            <p>You will share it with several hundred people at peak hours. This is not a hidden gem. It is, however, still worth the trip — if you go early, time the tide, and factor the bay itself into the plan rather than treating it as the transfer to the main event.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Colour palette ───────────────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">Colour palette</h2>
+
+      <div class="sg-palette">
+        <div class="sg-ramp">
+          <p class="sg-ramp-label">Dune</p>
+          <div class="sg-swatches">
+            <div class="sg-swatch" style="background: var(--dune-0);"><span>0</span></div>
+            <div class="sg-swatch" style="background: var(--dune-1);"><span>1</span></div>
+            <div class="sg-swatch" style="background: var(--dune-2);"><span>2</span></div>
+            <div class="sg-swatch" style="background: var(--dune-3);"><span>3</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--dune-4);"><span>4</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--dune-5);"><span>5</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--dune-6);"><span>6</span></div>
+          </div>
+        </div>
+        <div class="sg-ramp">
+          <p class="sg-ramp-label">Sea</p>
+          <div class="sg-swatches">
+            <div class="sg-swatch" style="background: var(--sea-0);"><span>0</span></div>
+            <div class="sg-swatch" style="background: var(--sea-1);"><span>1</span></div>
+            <div class="sg-swatch" style="background: var(--sea-2);"><span>2</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sea-3);"><span>3</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sea-4);"><span>4</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sea-5);"><span>5</span></div>
+          </div>
+        </div>
+        <div class="sg-ramp">
+          <p class="sg-ramp-label">Sky</p>
+          <div class="sg-swatches">
+            <div class="sg-swatch" style="background: var(--sky-0);"><span>0</span></div>
+            <div class="sg-swatch" style="background: var(--sky-1);"><span>1</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sky-2);"><span>2</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sky-3);"><span>3</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--sky-4);"><span>4</span></div>
+          </div>
+        </div>
+        <div class="sg-ramp">
+          <p class="sg-ramp-label">Canopy</p>
+          <div class="sg-swatches">
+            <div class="sg-swatch" style="background: var(--canopy-0);"><span>0</span></div>
+            <div class="sg-swatch" style="background: var(--canopy-1);"><span>1</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--canopy-2);"><span>2</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--canopy-3);"><span>3</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--canopy-4);"><span>4</span></div>
+          </div>
+        </div>
+        <div class="sg-ramp">
+          <p class="sg-ramp-label">Gold</p>
+          <div class="sg-swatches">
+            <div class="sg-swatch" style="background: var(--gold-0);"><span>0</span></div>
+            <div class="sg-swatch" style="background: var(--gold-1);"><span>1</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--gold-2);"><span>2</span></div>
+            <div class="sg-swatch sg-swatch--light" style="background: var(--gold-3);"><span>3</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Semantic tokens ───────────────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">Semantic tokens</h2>
+      <div class="sg-token-grid">
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-bg);"></div><code>--color-bg</code><span>Page background</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-surface);"></div><code>--color-surface</code><span>Header, cards</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-border);"></div><code>--color-border</code><span>Dividers, borders</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-text);"></div><code>--color-text</code><span>Body copy</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-text-subtle);"></div><code>--color-text-subtle</code><span>Bylines, captions</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-text-faint);"></div><code>--color-text-faint</code><span>Placeholders</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-primary);"></div><code>--color-primary</code><span>Links, accents</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-primary-dark);"></div><code>--color-primary-dark</code><span>Hover states</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-accent);"></div><code>--color-accent</code><span>Category tags</span></div>
+        <div class="sg-token"><div class="sg-token__dot" style="background: var(--color-canopy);"></div><code>--color-canopy</code><span>Nav active, badges</span></div>
+      </div>
+    </section>
+
+    <!-- ─── UI elements ───────────────────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">UI elements</h2>
+
+      <div class="sg-ui-stack">
+        <div class="sg-type-row">
+          <span class="sg-type-meta">category tag</span>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="tag tag--phang-nga">Phang Nga</span>
+            <span class="tag tag--krabi">Krabi</span>
+            <span class="tag tag--phuket">Phuket</span>
+            <span class="tag tag--islands">Islands</span>
+            <span class="tag tag--expat">Expat Living</span>
+            <span class="tag tag--property">Property</span>
+          </div>
+        </div>
+
+        <div class="sg-type-row">
+          <span class="sg-type-meta">links</span>
+          <p>Visit <a href="#">Railay Beach</a> before the longtails arrive. See also <a href="#">island hopping in Krabi</a>.</p>
+        </div>
+
+        <div class="sg-type-row">
+          <span class="sg-type-meta">horizontal rule / section break</span>
+          <hr class="article-rule" />
+        </div>
+
+        <div class="sg-type-row">
+          <span class="sg-type-meta">article card (placeholder)</span>
+          <div class="card-grid">
+            <article class="card">
+              <div class="card__image-placeholder"></div>
+              <div class="card__body">
+                <span class="tag tag--phang-nga">Phang Nga</span>
+                <h3 class="card__title">James Bond Island: What It's Actually Like to Visit</h3>
+                <p class="card__dek">The karst tower that launched a thousand longtails — and how to make it worth the trip.</p>
+                <p class="byline">By Greater Phuket · 28 June 2026</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card__image-placeholder card__image-placeholder--sea"></div>
+              <div class="card__body">
+                <span class="tag tag--krabi">Krabi</span>
+                <h3 class="card__title">Railay Beach: The Land-Locked Beach You Can Only Reach by Boat</h3>
+                <p class="card__dek">No road in, no crowds in cheap hire cars. Just longtails, limestone, and the best rock climbing in Thailand.</p>
+                <p class="byline">By Greater Phuket · 24 June 2026</p>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card__image-placeholder card__image-placeholder--jungle"></div>
+              <div class="card__body">
+                <span class="tag tag--expat">Expat Living</span>
+                <h3 class="card__title">A Realistic Cost of Living in Phuket, 2026</h3>
+                <p class="card__dek">What you actually spend — on rent, food, transport, and healthcare — depending on where and how you live.</p>
+                <p class="byline">By Greater Phuket · 20 June 2026</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Split-screen layout comp ───────────────────────────────────── -->
+    <section class="sg-section wrapper">
+      <h2 class="sg-label">Two-column full-bleed layout</h2>
+      <p class="caption" style="margin-block-end: var(--space-l);">Image bleeds to the viewport edge; text column extends its background via <code>::before</code>. Alternates image-left / image-right.</p>
+    </section>
+
+    <!-- Panel 1: image left, text right (dune background) -->
+    <section class="full-width-split-screen">
+      <Picture
+        src={imgHero}
+        alt="Koh Tapu rising from the jade waters of Phang Nga Bay at dawn"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 600px) 50vw, 100vw"
+        style="min-height: 60svh;"
+      />
+      <div class="split-text split-text--dune">
+        <p class="kicker">Phang Nga · Travel Guide</p>
+        <h2>James Bond Island: What It&#8217;s Actually Like to Visit</h2>
+        <p class="dek">The karst tower that launched a thousand longtails. It is genuinely extraordinary — but so is the crowd.</p>
+        <p>Khao Phing Kan sits in Ao Phang Nga National Park, about 100km north of Phuket Town. The approach matters as much as the destination: the boat ride through the bay&#8217;s limestone karsts is the real spectacle.</p>
+        <p class="byline">By Greater Phuket <span aria-hidden="true">·</span> 28 June 2026</p>
+      </div>
+    </section>
+
+    <!-- Panel 2: text left (sea background), image right -->
+    <section class="full-width-split-screen">
+      <div class="split-text split-text--sea">
+        <p class="kicker">Islands · Day Trip</p>
+        <h2>Getting There: Longtail or Speedboat?</h2>
+        <p>The practical window is before 9am or after 3pm. Speedboats from Ao Nang and Bang Rong pier both arrive in the middle of the day. A private longtail from Koh Yao Noi lets you time it properly.</p>
+        <p>The park entrance fee is 300 baht. Longtail hire from Koh Yao Noi runs to about 2,000 baht for a half-day.</p>
+      </div>
+      <Picture
+        src={imgBay1}
+        alt="Limestone karsts reflected in the still waters of Phang Nga Bay"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 600px) 50vw, 100vw"
+        style="min-height: 55svh;"
+      />
+    </section>
+
+    <!-- Panel 3: image left, text right (canopy background) -->
+    <section class="full-width-split-screen">
+      <Picture
+        src={imgBay2}
+        alt="Longtail boats anchored beneath the karst cliffs of Phang Nga Bay"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 600px) 50vw, 100vw"
+        style="min-height: 55svh;"
+      />
+      <div class="split-text split-text--canopy">
+        <p class="kicker">Phang Nga · Practical</p>
+        <h2>When to Go, and How to Beat the Crowds</h2>
+        <p>You will share it with several hundred people at peak hours. This is not a hidden gem. It is, however, still worth the trip — if you go early, time the tide, and factor the bay itself into the plan.</p>
+        <p>Koh Yao Noi is the low-key alternative base. It sits 45 minutes from Bang Rong pier and has a handful of small resorts that have not been consumed by the tour-group infrastructure.</p>
+      </div>
+    </section>
+
+    <!-- Panel 4: two images side by side, no text -->
+    <section class="full-width-split-screen">
+      <Picture
+        src={imgBay3}
+        alt="Dawn mist over the karst islands of Ao Phang Nga National Park"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 600px) 50vw, 100vw"
+        style="min-height: 50svh;"
+      />
+      <Picture
+        src={imgHero}
+        alt="Koh Tapu at golden hour, Phang Nga Bay"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 600px) 50vw, 100vw"
+        style="min-height: 50svh;"
+      />
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  /* ─── Page layout ─────────────────────────────────────────────────────── */
+  .sg-page {
+    padding-block-end: var(--space-3xl);
+  }
+
+  .sg-section {
+    padding-block: var(--space-2xl);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .sg-label {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    margin-block-end: var(--space-l);
+  }
+
+  /* ─── Hero ─────────────────────────────────────────────────────────────── */
+  .sg-hero {
+    position: relative;
+    min-height: 65svh;
+    display: flex;
+    align-items: flex-end;
+    /* ponytail: gradient stand-in until real photo lands */
+    background: linear-gradient(
+      160deg in oklch,
+      var(--sky-2) 0%,
+      var(--sea-4) 40%,
+      var(--sea-5) 70%,
+      oklch(18% 0.06 240) 100%
+    );
+    overflow: hidden;
+  }
+
+  .sg-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      oklch(12% 0.04 250 / 0.85) 0%,
+      oklch(12% 0.04 250 / 0.3) 50%,
+      transparent 100%
+    );
+  }
+
+  .sg-hero__content {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--space-2xl);
+    max-width: 44rem;
+  }
+
+  .sg-hero__content .kicker {
+    color: var(--sea-1);
+    margin-block-end: var(--space-s);
+  }
+
+  .sg-hero__content h1 {
+    font-size: var(--step-4);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #fff;
+    margin-block-end: var(--space-s);
+  }
+
+  .sg-hero__content .dek {
+    color: oklch(92% 0.02 250);
+    border-color: var(--sea-2);
+    margin-block-end: var(--space-m);
+  }
+
+  .sg-hero__content .byline {
+    color: oklch(75% 0.04 250);
+  }
+
+  /* ─── Global editorial styles (will move to global CSS later) ─────────── */
+
+  .kicker {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    display: block;
+  }
+
+  .dek {
+    font-size: var(--step-1);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--color-text-subtle);
+    border-inline-start: 3px solid var(--color-accent);
+    padding-inline-start: var(--space-s);
+    max-width: 52ch;
+  }
+
+  .byline {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    color: var(--color-text-faint);
+    letter-spacing: 0.03em;
+  }
+
+  .byline span {
+    margin-inline: 0.25em;
+  }
+
+  .caption {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    color: var(--color-text-faint);
+    font-style: italic;
+  }
+
+  /* Two-column body */
+  .article-body {
+    columns: 2;
+    column-gap: var(--space-2xl);
+    max-width: 72ch;
+  }
+
+  .article-body p + p {
+    margin-block-start: var(--space-s);
+  }
+
+  @media (max-width: 600px) {
+    .article-body {
+      columns: 1;
+    }
+  }
+
+  /* Section rule */
+  .article-rule {
+    border: none;
+    border-block-start: 1px solid var(--color-border);
+    margin-block: var(--space-l);
+  }
+
+  /* ─── Category tags ─────────────────────────────────────────────────── */
+  .tag {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2em 0.65em;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .tag--phang-nga  { background: var(--sea-0);    color: var(--sea-5); }
+  .tag--krabi      { background: var(--canopy-0); color: var(--canopy-4); }
+  .tag--phuket     { background: var(--sky-0);    color: var(--sky-4); }
+  .tag--islands    { background: var(--sea-0);    color: var(--sea-4); }
+  .tag--expat      { background: var(--gold-0);   color: var(--gold-3); }
+  .tag--property   { background: var(--dune-2);   color: var(--dune-6); }
+
+  /* ─── Links ─────────────────────────────────────────────────────────── */
+  a {
+    color: var(--color-primary);
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--color-primary-dark);
+  }
+
+  /* ─── Article cards ─────────────────────────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: var(--space-m);
+    margin-block-start: var(--space-s);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card__image-placeholder {
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg in oklch, var(--sky-1), var(--sea-4));
+  }
+
+  .card__image-placeholder--sea {
+    background: linear-gradient(135deg in oklch, var(--sea-2), var(--sky-3));
+  }
+
+  .card__image-placeholder--jungle {
+    background: linear-gradient(135deg in oklch, var(--canopy-1), var(--canopy-4));
+  }
+
+  .card__body {
+    padding: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    flex: 1;
+  }
+
+  .card__title {
+    font-size: var(--step-1);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text);
+  }
+
+  .card__dek {
+    font-size: var(--step--1);
+    color: var(--color-text-subtle);
+    line-height: 1.5;
+  }
+
+  /* ─── Font specimens ────────────────────────────────────────────────── */
+  .sg-font-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (max-width: 700px) {
+    .sg-font-pair { grid-template-columns: 1fr; }
+  }
+
+  .sg-font-specimen {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .sg-font-name {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    color: var(--color-text-faint);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .sg-font-display {
+    font-size: var(--step-3);
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  .sg-font-alpha {
+    font-size: var(--step-0);
+    line-height: 1.5;
+    color: var(--color-text-subtle);
+  }
+
+  /* ─── Style guide chrome ─────────────────────────────────────────────── */
+  .sg-type-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .sg-type-row {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: var(--space-m);
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .sg-type-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sg-type-meta {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text-faint);
+    padding-block-start: 0.2em;
+  }
+
+  .sg-demo-h1 {
+    font-size: var(--step-4);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-text);
+  }
+
+  .sg-demo-h2 {
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-text);
+  }
+
+  .sg-demo-h3 {
+    font-size: var(--step-2);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  /* ─── Palette swatches ─────────────────────────────────────────────── */
+  .sg-palette {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .sg-ramp {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .sg-ramp-label {
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+    font-weight: 600;
+    color: var(--color-text-subtle);
+  }
+
+  .sg-swatches {
+    display: flex;
+    gap: 3px;
+  }
+
+  .sg-swatch {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 52px;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 3px;
+    border: 1px solid oklch(0% 0 0 / 0.06);
+  }
+
+  .sg-swatch span {
+    font-family: var(--font-sans);
+    font-size: 0.55rem;
+    color: oklch(0% 0 0 / 0.3);
+    line-height: 1;
+  }
+
+  .sg-swatch--light span {
+    color: oklch(100% 0 0 / 0.5);
+  }
+
+  /* ─── Semantic token grid ─────────────────────────────────────────── */
+  .sg-token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .sg-token {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-sans);
+    font-size: var(--step--2);
+  }
+
+  .sg-token__dot {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    border: 1px solid oklch(0% 0 0 / 0.08);
+    flex-shrink: 0;
+  }
+
+  .sg-token code {
+    display: block;
+    color: var(--color-primary);
+    font-size: 0.68rem;
+  }
+
+  .sg-token span {
+    color: var(--color-text-faint);
+  }
+
+  .sg-ui-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  /* ─── Split-screen layout comp ───────────────────────────────────────── */
+
+  /* Ensure Picture component images fill their grid cell */
+  .full-width-split-screen picture,
+  .full-width-split-screen picture img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Text panel base */
+  .split-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    justify-content: center;
+  }
+
+  .split-text h2 {
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .split-text p:not(.kicker):not(.byline) {
+    color: inherit;
+    opacity: 0.85;
+  }
+
+  /* Colour variants — background extends to edge via ::before in two_column.css */
+  .split-text--dune {
+    background: var(--dune-1);
+    color: var(--color-text);
+  }
+
+  .split-text--sea {
+    background: var(--sea-5);
+    color: var(--dune-0);
+  }
+
+  .split-text--sea .kicker {
+    color: var(--sea-1);
+  }
+
+  .split-text--sea .dek {
+    border-color: var(--sea-2);
+    color: var(--dune-1);
+  }
+
+  .split-text--canopy {
+    background: var(--canopy-4);
+    color: var(--canopy-0);
+  }
+
+  .split-text--canopy .kicker {
+    color: var(--canopy-1);
+  }
+</style>

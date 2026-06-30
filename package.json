@@ -19,7 +19,7 @@
 		"purge": "rm -rf dist .astro .netlify node_modules"
 	},
 	"dependencies": {
-		"@astrojs/compiler-rs": "^0.2.3",
+		"@astrojs/compiler-rs": "^0.3.0",
 		"@astrojs/netlify": "^8.0.0",
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.3",
@@ -37,7 +37,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.5.1",
 		"node-gyp": "^13.0.0",
-		"oxfmt": "^0.56.0",
+		"oxfmt": "^0.57.0",
 		"postcss-jit-props": "^1.0.16",
 		"tsx": "^4.22.4"
 	},
